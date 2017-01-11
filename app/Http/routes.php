@@ -12,5 +12,14 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->version();
+    return redirect('v1');
+    // return $app->version();
+});
+
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', function ($api) {
+    $api->get('/', [
+      'uses'=> 'App\Http\Controllers\Api\V1\GeneralController@index'
+    ]);
 });
