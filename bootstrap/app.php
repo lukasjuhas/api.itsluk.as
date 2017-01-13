@@ -24,6 +24,8 @@ $app = new Laravel\Lumen\Application(
 );
 
 // $app->withFacades();
+// class_alias('Dingo\Api\Facade\API', 'API');
+// class_alias('Dingo\Api\Facade\Route', 'ApiRoute');
 
 // $app->withEloquent();
 

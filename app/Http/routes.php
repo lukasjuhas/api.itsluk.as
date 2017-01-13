@@ -11,13 +11,18 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
-});
+// $app->get('/', function () use ($app) {
+//     return redirect('v1');
+//     // return $app->version();
+// });
 
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
+    $api->get('/', [
+        'uses'=> 'App\Http\Controllers\Api\V1\GeneralController@index'
+    ]);
+
     $api->get('/vinyls', 'App\Http\Controllers\VinylsController@index');
 
     $api->get('/vinyls/page', function () {
