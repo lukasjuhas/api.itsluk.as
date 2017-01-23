@@ -2,29 +2,19 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class GeneralController extends Controller
+class GeneralController extends ApiController
 {
-    /**
-     * Controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function index()
     {
-        $info = [
-            'name' => 'Lukas Juhas',
-            'website' => 'https://itsluk.as',
-            'email' => 'lukas@itsluk.as',
-            'twitter' => '@itslukasjuhas'
-        ];
-
-        return response()->json($info);
+        return $this->respond([
+            'data' => [
+                'name' => 'Lukas Juhas',
+                'website' => 'https://itsluk.as',
+                'email' => 'lukas@itsluk.as',
+                'twitter' => '@itslukasjuhas'
+            ]
+        ]);
     }
 }
