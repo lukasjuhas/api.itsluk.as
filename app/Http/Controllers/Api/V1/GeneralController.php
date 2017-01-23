@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 class GeneralController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Controller instance.
      *
      * @return void
      */
@@ -25,6 +25,6 @@ class GeneralController extends Controller
             'twitter' => '@itslukasjuhas'
         ];
 
-        return $this->response->array($info);
+        return response()->json($info);
     }
 }

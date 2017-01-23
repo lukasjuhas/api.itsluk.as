@@ -16,18 +16,26 @@
 //     // return $app->version();
 // });
 
-$api = app('Dingo\Api\Routing\Router');
+// $api = app('Dingo\Api\Routing\Router');
+//
+// $api->version('v1', function ($api) {
+//     $api->get('/', [
+//         'uses'=> 'App\Http\Controllers\Api\V1\GeneralController@index'
+//     ]);
+//
+//     $api->get('/vinyls', 'App\Http\Controllers\VinylsController@index');
+//
+//     $api->get('/vinyls/page', function () {
+//         return redirect('/vinyls');
+//     });
+//
+//     $api->get('/vinyls/page/{page}', 'App\Http\Controllers\VinylsController@page');
+// });
 
-$api->version('v1', function ($api) {
-    $api->get('/', [
-        'uses'=> 'App\Http\Controllers\Api\V1\GeneralController@index'
-    ]);
+$app->get('/', [
+    'uses' => 'Api\V1\GeneralController@index'
+]);
 
-    $api->get('/vinyls', 'App\Http\Controllers\VinylsController@index');
-
-    $api->get('/vinyls/page', function () {
-        return redirect('/vinyls');
-    });
-
-    $api->get('/vinyls/page/{page}', 'App\Http\Controllers\VinylsController@page');
-});
+$app->get('/dispatches', [
+    'uses' => 'Api\V1\DispatchesController@index'
+]);
