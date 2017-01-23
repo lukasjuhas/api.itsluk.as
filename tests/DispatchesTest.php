@@ -1,14 +1,13 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use App\Dispatch;
 
 class DispatchesTest extends ApiTester
 {
     /** @test */
     public function it_fetches_dispatches()
     {
-        $this->times(5)->makeDispatch();
+        $this->times(5)->make('Dispatch');
 
         $this->getJson('dispatches');
 
@@ -18,7 +17,7 @@ class DispatchesTest extends ApiTester
     /** @test */
     public function it_fetches_a_single_dispatch()
     {
-        $this->makeDispatch();
+        $this->make('Dispatch');
 
         $dispatch = $this->getJson('dispatches/1')->data;
 
@@ -34,15 +33,11 @@ class DispatchesTest extends ApiTester
         $this->assertResponseStatus(404);
     }
 
-    private function makeDispatch($dispatchFields = [])
+    protected function getStub()
     {
-        $dispatch = array_merge([
+        return [
           'title' => $this->fake->sentence,
           'content' => $this->fake->paragraph,
-        ], $dispatchFields);
-
-        while ($this->times--) {
-            Dispatch::create($dispatch);
-        }
+        ];
     }
 }
