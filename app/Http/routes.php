@@ -36,6 +36,18 @@ $app->get('/', [
     'uses' => 'Api\V1\GeneralController@index'
 ]);
 
-$app->get('/dispatches', [
-    'uses' => 'Api\V1\DispatchesController@index'
-]);
+$app->group(['prefix' => 'dispatches'], function($app)
+{
+    $app->get('/', [
+        'uses' => 'Api\V1\DispatchesController@index'
+    ]);
+
+    $app->post('/', [
+        'middleware' => 'auth',
+        'uses' => 'Api\V1\DispatchesController@store'
+    ]);
+
+    $app->get('{id}', [
+        'uses' => 'Api\V1\DispatchesController@show'
+    ]);
+});

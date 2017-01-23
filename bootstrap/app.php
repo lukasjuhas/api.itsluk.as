@@ -24,8 +24,6 @@ $app = new Laravel\Lumen\Application(
 );
 
 // $app->withFacades();
-// class_alias('Dingo\Api\Facade\API', 'API');
-// class_alias('Dingo\Api\Facade\Route', 'ApiRoute');
 
 $app->withEloquent();
 
@@ -65,9 +63,9 @@ $app->singleton(
 //    App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +79,7 @@ $app->singleton(
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

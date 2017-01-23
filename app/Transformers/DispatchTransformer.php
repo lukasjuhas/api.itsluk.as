@@ -4,11 +4,11 @@ namespace Transformers;
 
 class DispatchTransformer extends Transformer
 {
-    public function transform($post)
+    public function transform($dispatch)
     {
         return [
-            'post_title' => $post->title,
-            'post_content' => $post->content,
+            'post_title' => $dispatch['title'],
+            'post_content' => $dispatch['content'],
         ];
     }
 }
