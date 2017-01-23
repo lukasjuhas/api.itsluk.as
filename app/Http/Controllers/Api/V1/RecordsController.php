@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
-use Transformers\VinylTransformer;
+use App\Http\Controllers\ApiController;
+
+use Transformers\RecordTransformer;
 use GuzzleHttp\Client;
 
-class VinylsController extends Controller
+class RecordsController extends ApiController
 {
     /**
-    * @var Transformers\VinylTransformer
+    * @var Transformers\RecordTransformer
     */
-    protected $vinylTransformer;
+    protected $recordTransformer;
 
-    public function __construct(VinylTransformer $vinylTransformer)
+    public function __construct(RecordTransformer $recordTransformer)
     {
-        $this->vinylTransformer = $vinylTransformer;
+        $this->recordTransformer = $recordTransformer;
     }
 
     public function index()
@@ -52,9 +54,9 @@ class VinylsController extends Controller
 
         $response = $client->request('GET', 'users/itslukas/collection?per_page=25');
         $response_body = (array) json_decode($response->getBody());
-        $items = $this->vinylTransformer->transformCollection($response_body['releases']);
+        $items = $this->recordTransformer->transformCollection($response_body['releases']);
 
-        return $this->response()->array([
+        return $this->respond([
             'paginator' => [
                 'total_count' => $response_body['pagination']->items,
                 'current_page' => $response_body['pagination']->page,
@@ -100,9 +102,9 @@ class VinylsController extends Controller
 
         $response = $client->request('GET', 'users/itslukas/collection?page=' . $page_number);
         $response_body = (array) json_decode($response->getBody());
-        $items = $this->vinylTransformer->transformCollection($response_body['releases']);
+        $items = $this->recordTransformer->transformCollection($response_body['releases']);
 
-        return $this->response()->array([
+        return $this->respond([
             'paginator' => [
                 'total_count' => $response_body['pagination']->items,
                 'current_page' => $response_body['pagination']->page,
