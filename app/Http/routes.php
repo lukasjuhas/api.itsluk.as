@@ -50,4 +50,24 @@ $app->group(['prefix' => 'dispatches'], function($app)
     $app->get('{id}', [
         'uses' => 'Api\V1\DispatchesController@show'
     ]);
+
+    $app->get('{dispatchId}/tags', [
+        'uses' => 'Api\V1\TagsController@index'
+    ]);
+});
+
+$app->group(['prefix' => 'tags'], function($app)
+{
+    $app->get('/', [
+        'uses' => 'Api\V1\TagsController@index'
+    ]);
+
+    $app->post('/', [
+        'middleware' => 'auth',
+        'uses' => 'Api\V1\TagsController@store'
+    ]);
+
+    $app->get('{id}', [
+        'uses' => 'Api\V1\TagsController@show'
+    ]);
 });

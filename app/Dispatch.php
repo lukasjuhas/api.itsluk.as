@@ -26,4 +26,9 @@ class Dispatch extends Model
     ];
 
     protected $table = 'dispatches';
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class); 
+    }
 }
