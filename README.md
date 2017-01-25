@@ -33,6 +33,19 @@ Get specific single dispatch.
 Get specific dispatch's tags
 
 ---
+## Tags
+Tags used for dispatches.
+
+### `GET /tags`
+Feed of all tags.
+
+### `POST /tags`
+Create a new tag. *Requires authentication. See "Auth" section.*
+
+### `GET /tags/{id}`
+Get dispatches for specific tag.
+
+---
 ## Records
 My record collection, pulled from [Discogs](https://www.discogs.com/).
 
