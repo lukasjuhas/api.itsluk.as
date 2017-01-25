@@ -45,8 +45,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+
+        // Missing Model
         if ($e instanceof ModelNotFoundException) {
             return response()->json(['error' => ['message' => 'Resource not found']], 404);
+        }
+
+        // 404
+        if ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+            return response()->json([
+              'error' => [
+                'message' => 'Sorry, the endpoint you were looking for was not found.',
+                'link' => 'https://itsluk.as/wtf.gif'
+              ]
+            ], 404);
         }
 
         return parent::render($request, $e);
