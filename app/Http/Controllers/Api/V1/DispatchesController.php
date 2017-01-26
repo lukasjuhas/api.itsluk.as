@@ -44,11 +44,15 @@ class DispatchesController extends ApiController
     {
         if(!$request->input('title') or !$request->input('content'))
         {
-            $this->respondWithValidationError('Parameters failed validation for a dispatch.');
+            return $this->respondWithValidationError('Parameters failed validation for a dispatch.');
         }
 
-        Dispatch::create($request->all());
+        $dispatch = Dispatch::create($request->all());
 
-        return $this->respondCreated('Dispatch successfully created.');
+        if($dispatch) {
+            return $this->respondCreated($dispatch->id, 'Dispatch successfully created.');
+        }
+
+        return $this->respondInternalError('There was a problem creating a new dispatch.'); 
     }
 }

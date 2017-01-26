@@ -43,9 +43,10 @@ class ApiController extends BaseController
         return response()->json($data, $this->getStatusCode(), $headers);
     }
 
-    public function respondCreated($message = 'Successfully created.')
+    public function respondCreated($id, $message = 'Successfully created.')
     {
         return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond([
+            'id' => $id,
             'message' => $message
         ]);
     }

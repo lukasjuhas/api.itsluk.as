@@ -1,18 +1,17 @@
 <?php
 
-use Faker\Factory as Faker;
-
-abstract class ApiTester extends TestCase
+trait Factory
 {
-    protected $fake;
-
+    /**
+     * @var intreger
+     */
     protected $times = 1;
 
-    public function __construct()
-    {
-        $this->fake = Faker::create();
-    }
-
+    /**
+     * Number of times to make entities
+     * @param   int    $count
+     * @return  $this
+     */
     protected function times($count)
     {
         $this->times = $count;
@@ -38,20 +37,5 @@ abstract class ApiTester extends TestCase
     protected function getStub()
     {
         throw new BadMethodCallException('Create your own getStub method to declare your fields.');
-    }
-
-    protected function getJson($uri)
-    {
-        return  json_decode($this->call('GET', $uri)->getContent());
-    }
-
-    protected function assertObjectHasAttributes()
-    {
-        $args = func_get_args();
-        $object = array_shift($args);
-
-        foreach ($args as $attribute) {
-            $this->assertObjectHasAttribute($attribute, $object);
-        }
     }
 }
