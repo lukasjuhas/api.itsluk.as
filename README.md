@@ -13,6 +13,10 @@ Some of the requests, epsecially **`POST`** need a basic authentication using `a
 
 More info coming soon.
 
+# Rate Limits
+
+60 requests per minute.
+
 # Endpoints
 
 ### `GET /`

@@ -4,13 +4,14 @@
  * General
  */
 $app->get('/', [
+    'middleware' => 'throttle:60',
     'uses' => 'Api\V1\GeneralController@index'
 ]);
 
 /**
  * Dispatches
  */
-$app->group(['prefix' => 'dispatches'], function($app)
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'dispatches'], function($app)
 {
     $app->get('/', [
         'uses' => 'Api\V1\DispatchesController@index'
@@ -33,7 +34,7 @@ $app->group(['prefix' => 'dispatches'], function($app)
 /**
  * Tags
  */
-$app->group(['prefix' => 'tags'], function($app)
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function($app)
 {
     $app->get('/', [
         'uses' => 'Api\V1\TagsController@index'
@@ -52,7 +53,7 @@ $app->group(['prefix' => 'tags'], function($app)
 /**
  * Records
  */
-$app->group(['prefix' => 'records'], function($app)
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function($app)
 {
     $app->get('/', [
         'uses' => 'Api\V1\RecordsController@index'
