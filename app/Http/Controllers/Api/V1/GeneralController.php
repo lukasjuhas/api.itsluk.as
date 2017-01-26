@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Cache;
 
 class GeneralController extends ApiController
 {
@@ -12,13 +13,21 @@ class GeneralController extends ApiController
      */
     public function index()
     {
-        return $this->respond([
+        $data = [
             'data' => [
                 'name' => 'Lukas Juhas',
                 'website' => 'https://itsluk.as',
                 'email' => 'lukas@itsluk.as',
                 'twitter' => '@itslukasjuhas'
             ]
-        ]);
+        ];
+
+        $general = Cache::get('general');
+
+        if(empty($general)) {
+            Cache::put('general', $data, 60);
+        }
+
+        return $this->respond($general);
     }
 }
