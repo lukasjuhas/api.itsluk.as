@@ -43,6 +43,25 @@ class ApiController extends BaseController
         return response()->json($data, $this->getStatusCode(), $headers);
     }
 
+    /**
+     * @param Paginator $items
+     * @param $data
+     * @return mixed
+     */
+    public function respondWithPagination($items, $data)
+    {
+        $data = array_merge($data, [
+          'paginator' => [
+              'total_count' => $items->total(),
+              'total_pages' => ceil($items->total() / $items->perPage()),
+              'curent_page' => $items->currentPage(),
+              'limit' => (int) $items->perPage()
+          ]
+        ]);
+
+        return $this->respond($data);
+    }
+
     public function respondCreated($id, $message = 'Successfully created.')
     {
         return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond([

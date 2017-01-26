@@ -18,12 +18,19 @@ class DispatchesController extends ApiController
         $this->dispatchTransformer = app(\Transformers\DispatchTransformer::class);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $dispatches = Dispatch::all();
+        $limit = $request->input('limit') ? : 10;
+        if ($limit > 100) {
+            $limit = 100;
+        }
 
-        return $this->respond([
-            'data' => $this->dispatchTransformer->transformCollection($dispatches->toArray()),
+        $dispatches = Dispatch::paginate($limit);
+
+        // dd(get_class_methods($dispatches));
+
+        return $this->respondWithPagination($dispatches, [
+            'data' => $this->dispatchTransformer->transformCollection($dispatches->all())
         ]);
     }
 
@@ -31,7 +38,7 @@ class DispatchesController extends ApiController
     {
         $dispatch = Dispatch::find($id);
 
-        if(!$dispatch) {
+        if (!$dispatch) {
             return $this->respondNotFound('Dispatch does not exists.');
         }
 
@@ -42,17 +49,16 @@ class DispatchesController extends ApiController
 
     public function store(Request $request)
     {
-        if(!$request->input('title') or !$request->input('content'))
-        {
+        if (!$request->input('title') or !$request->input('content')) {
             return $this->respondWithValidationError('Parameters failed validation for a dispatch.');
         }
 
         $dispatch = Dispatch::create($request->all());
 
-        if($dispatch) {
+        if ($dispatch) {
             return $this->respondCreated($dispatch->id, 'Dispatch successfully created.');
         }
 
-        return $this->respondInternalError('There was a problem creating a new dispatch.'); 
+        return $this->respondInternalError('There was a problem creating a new dispatch.');
     }
 }
