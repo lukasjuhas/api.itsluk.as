@@ -6,6 +6,10 @@ use App\Http\Controllers\ApiController;
 
 class GeneralController extends ApiController
 {
+    /**
+     * show general information
+     * @return mixed
+     */
     public function index()
     {
         return $this->respond([

@@ -18,6 +18,11 @@ class DispatchesController extends ApiController
         $this->dispatchTransformer = app(\Transformers\DispatchTransformer::class);
     }
 
+    /**
+     * get feed of dispatches
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $limit = $request->input('limit') ? : 10;
@@ -34,6 +39,11 @@ class DispatchesController extends ApiController
         ]);
     }
 
+    /**
+     * show specific dispatch based on given id
+     * @param $id
+     * @return mixed
+     */
     public function show($id)
     {
         $dispatch = Dispatch::find($id);
@@ -47,6 +57,11 @@ class DispatchesController extends ApiController
         ]);
     }
 
+    /**
+     * store a new dispatch
+     * @param Request $request
+     * @return mixed
+     */
     public function store(Request $request)
     {
         if (!$request->input('title') or !$request->input('content')) {
