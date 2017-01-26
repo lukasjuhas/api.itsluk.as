@@ -1,25 +1,15 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
-// $app->get('/', function () use ($app) {
-//     return redirect('v1');
-//     // return $app->version();
-// });
-
+/**
+ * General
+ */
 $app->get('/', [
     'uses' => 'Api\V1\GeneralController@index'
 ]);
 
+/**
+ * Dispatches
+ */
 $app->group(['prefix' => 'dispatches'], function($app)
 {
     $app->get('/', [
@@ -40,6 +30,9 @@ $app->group(['prefix' => 'dispatches'], function($app)
     ]);
 });
 
+/**
+ * Tags
+ */
 $app->group(['prefix' => 'tags'], function($app)
 {
     $app->get('/', [
@@ -56,6 +49,9 @@ $app->group(['prefix' => 'tags'], function($app)
     ]);
 });
 
+/**
+ * Records
+ */
 $app->group(['prefix' => 'records'], function($app)
 {
     $app->get('/', [
