@@ -28,7 +28,7 @@ API for my personal website.
 - [x] ~~Handle ModelNotFoundException~~
 - [x] Add Dispatches
     - [x] ~~GET~~
-    - [ ] POST
+    - [x] ~~POST~~
     - [x] ~~Pagination~~
     - [ ] Tests
 - [x] Add Tags

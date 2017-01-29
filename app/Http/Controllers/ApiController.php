@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Response as IlluminateResponse;
+use App\User;
 
 class ApiController extends BaseController
 {
@@ -83,5 +84,25 @@ class ApiController extends BaseController
                 'status_code' => $this->getStatusCode()
             ]
         ]);
+    }
+
+    
+    public function getRequestingUser($request)
+    {
+        $user = false;
+
+        if($request->method() == 'POST') {
+            if(!$request->has('token')) {
+                $user = false;
+            }
+
+            $user = User::where('token_api', $request->get('token'))->first();
+
+            if(!$user) {
+                $user = false;
+            }
+        }
+
+        return $user;
     }
 }

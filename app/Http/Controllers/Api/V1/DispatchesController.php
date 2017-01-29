@@ -64,10 +64,18 @@ class DispatchesController extends ApiController
      */
     public function store(Request $request)
     {
+        // validate user request
+        $user = $this->getRequestingUser($request);
+        if(!$user) {
+            return $this->respondWithValidationError('Authentication failed validation for a dispatch.');
+        }
+
+        // validate fields
         if (!$request->input('title') or !$request->input('content')) {
             return $this->respondWithValidationError('Parameters failed validation for a dispatch.');
         }
 
+        // create a dispatch
         $dispatch = Dispatch::create($request->all());
 
         if ($dispatch) {
