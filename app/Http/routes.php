@@ -9,6 +9,13 @@ $app->get('/', [
 ]);
 
 /**
+ * Key Generator
+ */
+$app->get('/key', function() {
+    return str_random(32);
+});
+
+/**
  * Dispatches
  */
 $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
