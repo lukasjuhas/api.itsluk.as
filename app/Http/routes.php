@@ -60,10 +60,6 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
     $app->get('{id}', [
         'uses' => 'Api\V1\PhotosController@show'
     ]);
-
-    $app->get('{dispatchId}/tags', [
-        'uses' => 'Api\V1\TagsController@index'
-    ]);
 });
 
 /**

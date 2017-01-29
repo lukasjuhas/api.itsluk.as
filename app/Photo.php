@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Transformers\PhotoDataTransformer;
 
 class Photo extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
@@ -21,12 +21,8 @@ class Photo extends Model
         'status'
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        //
-    ];
+    public function getDataAttribute($data) {
+        $photoDataTransformer = app(\Transformers\PhotoDataTransformer::class);
+        return $photoDataTransformer->transform($data);
+    }
 }

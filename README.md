@@ -42,10 +42,10 @@ API for my personal website.
     - [ ] POST
     - [ ] Tests
 - [ ] Add Photos
-    - [ ] Handle files through AWS
-    - [ ] GET
-    - [ ] POST
-    - [ ] Pagination
+    - [x] Handle files through AWS
+    - [x] GET
+    - [x] POST
+    - [x] Pagination
     - [ ] Tests
 - [ ] Implement Basic Auth
     - [ ] Add SSL Certificate

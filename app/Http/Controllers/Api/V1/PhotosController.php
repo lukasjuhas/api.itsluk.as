@@ -17,7 +17,7 @@ class PhotosController extends ApiController
      */
     public function __construct()
     {
-        // $this->photoTransformer = app(\Transformers\PhotoTransformer::class);
+        $this->photoTransformer = app(\Transformers\PhotoTransformer::class);
     }
 
     /**
