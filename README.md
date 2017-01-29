@@ -34,7 +34,7 @@ API for my personal website.
 - [x] Add Tags
     - [ ] GET
     - [ ] POST
-    - [x] Pagination
+    - [x] ~~Pagination~~
     - [ ] Tests
 - [x] Add Records
     - [ ] GET
@@ -42,13 +42,13 @@ API for my personal website.
     - [ ] POST
     - [ ] Tests
 - [ ] Add Photos
-    - [x] Handle files through AWS
-    - [x] GET
-    - [x] POST
-    - [x] Pagination
+    - [x] ~~Handle files through AWS~~
+    - [x] ~~GET~~
+    - [x] ~~POST~~
+    - [x] ~~Pagination~~
     - [ ] Tests
-- [ ] Implement Basic Auth
-    - [ ] Add SSL Certificate
+- [x] Implement Basic Auth
+    - [x] Add SSL Certificate
 - [ ] Implement Caching using [Memcached](http://memcached.org/)
 - [ ] Finalise documentation
 
