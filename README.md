@@ -48,7 +48,7 @@ API for my personal website.
     - [x] ~~Pagination~~
     - [ ] Tests
 - [x] Implement Basic Auth
-    - [x] Add SSL Certificate
+    - [x] Add [SSL Certificate](https://www.ssllabs.com/ssltest/analyze.html?d=api.itsluk.as)
 - [ ] Implement Caching using [Memcached](http://memcached.org/)
 - [ ] Finalise documentation
 
