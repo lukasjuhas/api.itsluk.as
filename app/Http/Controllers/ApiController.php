@@ -50,14 +50,14 @@ class ApiController extends BaseController
      */
     public function respondWithPagination($items, $data)
     {
-        $data = array_merge($data, [
+        $data = array_merge([
           'paginator' => [
               'total_count' => $items->total(),
               'total_pages' => ceil($items->total() / $items->perPage()),
               'curent_page' => $items->currentPage(),
               'limit' => (int) $items->perPage()
           ]
-        ]);
+        ], $data);
 
         return $this->respond($data);
     }
