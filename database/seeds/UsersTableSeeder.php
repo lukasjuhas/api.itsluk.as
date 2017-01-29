@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
             'email'          => 'lukas@itsluk.as',
             'role'           => 'administrator',
             'password'       => app('hash')->make('password'),
+            'api_token'      => str_random(60),
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
