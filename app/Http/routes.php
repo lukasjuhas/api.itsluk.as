@@ -11,8 +11,7 @@ $app->get('/', [
 /**
  * Dispatches
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'dispatches'], function($app)
-{
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\DispatchesController@index'
     ]);
@@ -25,17 +24,12 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'dispatches'], function(
     $app->get('{id}', [
         'uses' => 'Api\V1\DispatchesController@show'
     ]);
-
-    $app->get('{dispatchId}/tags', [
-        'uses' => 'Api\V1\TagsController@index'
-    ]);
 });
 
 /**
  * Tags
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function($app)
-{
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\TagsController@index'
     ]);
@@ -51,10 +45,31 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function($app)
 });
 
 /**
+ * Photos
+ */
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
+    $app->get('/', [
+        'uses' => 'Api\V1\PhotosController@index'
+    ]);
+
+    $app->post('/', [
+        'middleware' => 'auth',
+        'uses' => 'Api\V1\PhotosController@store'
+    ]);
+
+    $app->get('{id}', [
+        'uses' => 'Api\V1\PhotosController@show'
+    ]);
+
+    $app->get('{dispatchId}/tags', [
+        'uses' => 'Api\V1\TagsController@index'
+    ]);
+});
+
+/**
  * Records
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function($app)
-{
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\RecordsController@index'
     ]);

@@ -71,7 +71,7 @@ class DispatchesController extends ApiController
         }
 
         // validate fields
-        if (!$request->input('title') or !$request->input('content')) {
+        if (!$request->has('title') or !$request->has('content')) {
             return $this->respondWithValidationError('Parameters failed validation for a dispatch.');
         }
 

@@ -86,7 +86,7 @@ class ApiController extends BaseController
         ]);
     }
 
-    
+
     public function getRequestingUser($request)
     {
         $user = false;
@@ -96,7 +96,7 @@ class ApiController extends BaseController
                 $user = false;
             }
 
-            $user = User::where('token_api', $request->get('token'))->first();
+            $user = User::where('api_token', $request->get('token'))->first();
 
             if(!$user) {
                 $user = false;

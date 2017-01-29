@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Photo extends Model
 {
 
     /**
@@ -13,7 +13,12 @@ class User extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'data', 'url',
+        'user_id',
+        'title',
+        'path',
+        'url',
+        'data',
+        'status'
     ];
 
     /**

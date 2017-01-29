@@ -9,7 +9,9 @@
         "laravel/lumen-framework": "5.4.*",
         "vlucas/phpdotenv": "~2.2",
         "guzzlehttp/guzzle": "~6.0",
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^5.7",
+        "league/flysystem": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

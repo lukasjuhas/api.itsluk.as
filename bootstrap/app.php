@@ -82,7 +82,7 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
@@ -96,9 +96,16 @@ $app->register(App\Providers\AuthServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
+$config = [
+    'filesystems',
+];
 
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../app/Http/routes.php';
 });
+
+foreach ($config as $file) {
+    $app->configure($file);
+}
 
 return $app;
