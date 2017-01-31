@@ -26,6 +26,7 @@ class GeneralController extends ApiController
 
         if(empty($general)) {
             Cache::put('general', $data, 60);
+            $general = $data;
         }
 
         return $this->respond($general);
