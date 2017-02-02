@@ -6,9 +6,11 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\FilesystemManager as Filesystem;
 use App\Photo;
+use Intervention\Image\Facades\Image;
 
 class PhotosController extends ApiController
 {
+    protected $aws_path = '/photos/';
 
     /**
      * Controller instance.
@@ -68,7 +70,7 @@ class PhotosController extends ApiController
     {
         // validate user request
         $user = $this->getRequestingUser($request);
-        if(!$user) {
+        if (!$user) {
             return $this->respondWithValidationError('Authentication failed validation for a photo.');
         }
 
@@ -78,15 +80,33 @@ class PhotosController extends ApiController
         }
 
         $titles = $request->get('title');
-        foreach($request->file('photo') as $key => $photo) {
-            $file = $filesystem->disk('s3')->putFile('photos', $photo);
-            if($file) {
-              $photo = Photo::create([
+
+        foreach ($request->file('photo') as $key => $photo) {
+            $filename  = time() . '.' . $photo->getClientOriginalExtension();
+            $path = $this->aws_path . $filename;
+
+            $formated_image = Image::make($photo)->resize(null, 700, function ($constraint) {
+                $constraint->aspectRatio();
+            })->encode('jpg');
+
+
+            $exif = $formated_image->exif();
+
+            // This is causing errors because of some sort of formating
+            unset($exif['MakerNote']);
+
+            $formated_image = $formated_image->stream();
+
+            // upload to AWS
+            $file = $filesystem->disk('s3')->put($path, $formated_image->__toString());
+
+            if ($file) {
+                $photo = Photo::create([
                   'user_id' => $user->id,
                   'title' => $titles[$key],
-                  'path' => $file,
+                  'path' => $path,
                   'url' => $filesystem->disk('s3')->url($file),
-                  'data' => serialize(exif_read_data($photo)),
+                  'data' => serialize($exif),
                   'status' => 'published'
               ]);
             }
