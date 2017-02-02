@@ -10,7 +10,7 @@ use Intervention\Image\Facades\Image;
 
 class PhotosController extends ApiController
 {
-    protected $aws_path = '/photos/';
+    protected $aws_path = 'photos/';
 
     /**
      * Controller instance.
@@ -104,8 +104,8 @@ class PhotosController extends ApiController
                 $photo = Photo::create([
                   'user_id' => $user->id,
                   'title' => $titles[$key],
-                  'path' => $path,
-                  'url' => $filesystem->disk('s3')->url($file),
+                  'path' => '/' . $path,
+                  'url' => $filesystem->disk('s3')->url($path),
                   'data' => serialize($exif),
                   'status' => 'published'
               ]);
