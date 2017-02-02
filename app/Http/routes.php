@@ -1,5 +1,4 @@
 <?php
-
 /**
  * General
  */
@@ -54,7 +53,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app)
 /**
  * Photos
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
+$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\PhotosController@index'
     ]);
