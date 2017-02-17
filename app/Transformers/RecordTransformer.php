@@ -10,7 +10,8 @@ class RecordTransformer extends Transformer
             'release_id' => $record->release_id,
             'title' => $record->basic_information->title,
             'artist' => $record->basic_information->artists[0]->name,
-            'year' => $record->basic_information->year
+            'year' => $record->basic_information->year,
+            'thumb' => $record->basic_information->thumb
         ];
     }
 }
