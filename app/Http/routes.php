@@ -17,7 +17,7 @@ $app->get('/key', function() {
 /**
  * Dispatches
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
+$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\DispatchesController@index'
     ]);
@@ -35,7 +35,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
 /**
  * Tags
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app) {
+$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'tags'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\TagsController@index'
     ]);
@@ -71,7 +71,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function
 /**
  * Records
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function ($app) {
+$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'records'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\RecordsController@index'
     ]);
