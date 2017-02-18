@@ -6,6 +6,8 @@ use App\Http\Controllers\ApiController;
 
 use Transformers\RecordTransformer;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class RecordsController extends ApiController
 {
@@ -21,9 +23,46 @@ class RecordsController extends ApiController
 
     public function index()
     {
+        // $token = false;
+        //
+        // if(!$token) {
+        //     $stack = HandlerStack::create();
+        //     $middleware = new Oauth1([
+        //       'consumer_key'    => 'htWoPCOmPLRCwirWZkdv',
+        //       'consumer_secret' => 'sgnQdLGkvjKcTAlXhsXebkpTsDXmuaQk',
+        //       'token' => '',
+        //       'token_secret' => ''
+        //     ]);
+        //
+        //     $stack->push($middleware);
+        //
+        //     $client = new Client([
+        //         'base_uri' => 'https://api.discogs.com',
+        //         'handler' => $stack,
+        //         'headers' => [
+        //             'User-Agent' => 'api.itsluk.dev/1.0.0 +http://api.itsluk.dev',
+        //             'Content-Type' => 'application/json',
+        //         ]
+        //     ]);
+        //
+        //     $response = $client->request('GET', 'oauth/request_token', ['auth' => 'oauth']);
+        //     print_r($response); die();
+        // }
+
+        $stack = HandlerStack::create();
+
+        $middleware = new Oauth1([
+            'consumer_key'    => 'htWoPCOmPLRCwirWZkdv',
+            'consumer_secret' => 'sgnQdLGkvjKcTAlXhsXebkpTsDXmuaQk',
+            'token'           => '',
+            'token_secret'    => ''
+        ]);
+
+        $stack->push($middleware);
+
         $config = [
             'defaults' => [
-                'headers' => ['User-Agent' => 'api.itsluk.as/1.0.0 +http://api.itsluk.as'],
+                'headers' => ['User-Agent' => 'api.itsluk.dev/1.0.0 +http://api.itsluk.dev'],
             ],
         ];
 
@@ -46,13 +85,14 @@ class RecordsController extends ApiController
 
         $client = new Client([
             'base_uri' => 'https://api.discogs.com',
+            'handler' => $stack,
             'headers' => [
                 'User-Agent' => 'api.itsluk.as/1.0.0 +http://api.itsluk.as',
                 'Content-Type' => 'application/json',
             ]
         ]);
 
-        $response = $client->request('GET', 'users/itslukas/collection?per_page=25');
+        $response = $client->request('GET', 'users/itslukas/collection?per_page=25', ['auth' => 'oauth']);
         $response_body = (array) json_decode($response->getBody());
         $items = $this->recordTransformer->transformCollection($response_body['releases']);
 
