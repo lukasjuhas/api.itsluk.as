@@ -30,7 +30,7 @@ class TripsController extends ApiController
             $limit = 100;
         }
 
-        $trips = Trip::paginate($limit);
+        $trips = Trip::orderBy('id', 'desc')->paginate($limit);
 
         // dd(get_class_methods($trips));
 
