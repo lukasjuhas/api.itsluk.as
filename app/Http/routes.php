@@ -15,6 +15,24 @@ $app->get('/key', function() {
 });
 
 /**
+ * Trips
+ */
+$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'trips'], function ($app) {
+    $app->get('/', [
+        'uses' => 'Api\V1\TripsController@index'
+    ]);
+
+    $app->post('/', [
+        'middleware' => 'auth',
+        'uses' => 'Api\V1\TripsController@store'
+    ]);
+
+    $app->get('{id}', [
+        'uses' => 'Api\V1\TripsController@show'
+    ]);
+});
+
+/**
  * Dispatches
  */
 $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function ($app) {
