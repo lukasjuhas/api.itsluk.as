@@ -18,6 +18,7 @@ class CreateTripsTable extends Migration
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('name')->nullable();
+            $table->string('slug')->nullable();
             $table->string('location')->nullable();
             $table->string('date_string')->nullable();
             $table->string('feature')->nullable();
