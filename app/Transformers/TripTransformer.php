@@ -8,6 +8,7 @@ class TripTransformer extends Transformer
     {
         return [
             'title' => $trip['name'],
+            'slug' => $trip['slug'],
             'location' => $trip['location'],
             'feature' => $trip['feature'],
             'upcoming' => (boolean) $trip['upcoming'],
