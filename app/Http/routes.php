@@ -27,7 +27,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'trips'], function 
         'uses' => 'Api\V1\TripsController@store'
     ]);
 
-    $app->get('{id}', [
+    $app->get('{slug}', [
         'uses' => 'Api\V1\TripsController@show'
     ]);
 });

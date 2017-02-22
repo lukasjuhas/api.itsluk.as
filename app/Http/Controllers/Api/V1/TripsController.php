@@ -44,9 +44,9 @@ class TripsController extends ApiController
      * @param $id
      * @return mixed
      */
-    public function show($id)
+    public function show($slug)
     {
-        $trip = Trip::find($id);
+        $trip = Trip::where('slug', $slug)->first();
 
         if (!$trip) {
             return $this->respondNotFound('Trip does not exists.');
