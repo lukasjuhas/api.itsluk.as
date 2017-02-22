@@ -56,7 +56,9 @@ class ApiController extends BaseController
               'total_count' => $items->total(),
               'total_pages' => ceil($items->total() / $items->perPage()),
               'curent_page' => $items->currentPage(),
-              'limit' => (int) $items->perPage()
+              'limit' => (int) $items->perPage(),
+              'next_page' => $items->nextPageUrl(),
+              'prev_page' => $items->previousPageUrl()
           ]
         ], $data);
 
