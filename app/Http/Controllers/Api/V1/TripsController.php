@@ -32,6 +32,12 @@ class TripsController extends ApiController
 
         $trips = Trip::orderBy('id', 'desc')->paginate($limit);
 
+        if($request->input('content')) {
+            $trips = Trip::where('content', '!=', '')->orderBy('id', 'desc')->paginate($limit);
+        } else {
+            $trips = Trip::orderBy('id', 'desc')->paginate($limit);
+        }
+
         // dd(get_class_methods($trips));
 
         return $this->respondWithPagination($trips, [
