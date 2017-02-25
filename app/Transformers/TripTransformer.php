@@ -12,6 +12,7 @@ class TripTransformer extends Transformer
             'location' => $trip['location'],
             'feature' => $trip['feature'],
             'upcoming' => (boolean) $trip['upcoming'],
+            'content' => (boolean) !empty($trip['content']),
         ];
     }
 }
