@@ -58,6 +58,10 @@ class TripsController extends ApiController
             return $this->respondNotFound('Trip does not exists.');
         }
 
+        if (empty($trip->content)) {
+            return $this->respondNotFound('Trip does not have any content.');
+        }
+
         return $this->respond([
             'data' => $this->tripTransformer->transform($trip),
         ]);
