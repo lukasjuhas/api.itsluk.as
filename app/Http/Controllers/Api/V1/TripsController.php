@@ -76,4 +76,24 @@ class TripsController extends ApiController
     {
         //
     }
+
+    public function update(Request $request, $slug)
+    {
+        $trip = Trip::where('slug', $slug)->first();
+
+        if(!$trip) {
+            return $this->respondNotFound('Trip does not exists.');
+        }
+
+        $update = $trip->update([
+            'name' => $request->get('title'),
+            'content' => $request->get('content'),
+        ]);
+
+        if($update) {
+            return $this->respondUpdated($trip->id);
+        }
+
+        return $this->respondWithError('There was problem updating trip.');
+    }
 }

@@ -73,6 +73,14 @@ class ApiController extends BaseController
         ]);
     }
 
+    public function respondUpdated($id, $message = 'Successfully updated.')
+    {
+        return $this->setStatusCode(IlluminateResponse::HTTP_OK)->respond([
+            'id' => $id,
+            'message' => $message
+        ]);
+    }
+
     public function respondWithValidationError($message = 'Parameters failed validation.')
     {
         return $this->setStatusCode(IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message);

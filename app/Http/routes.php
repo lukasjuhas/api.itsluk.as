@@ -30,6 +30,10 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'trips'], function 
     $app->get('{slug}', [
         'uses' => 'Api\V1\TripsController@show'
     ]);
+
+    $app->put('{slug}', [
+        'uses' => 'Api\V1\TripsController@update'
+    ]);
 });
 
 /**
