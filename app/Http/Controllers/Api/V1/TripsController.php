@@ -50,7 +50,7 @@ class TripsController extends ApiController
      * @param $id
      * @return mixed
      */
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $trip = Trip::where('slug', $slug)->first();
 
@@ -58,7 +58,7 @@ class TripsController extends ApiController
             return $this->respondNotFound('Trip does not exists.');
         }
 
-        if (empty($trip->content)) {
+        if (empty($trip->content) && !$request->get('all')) {
             return $this->respondNotFound('Trip does not have any content.');
         }
 
