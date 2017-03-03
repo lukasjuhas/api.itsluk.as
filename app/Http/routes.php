@@ -31,7 +31,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
         'uses' => 'Api\V1\TripsController@show'
     ]);
 
-    $app->patch('{slug}', [
+    $app->put('{slug}', [
         'uses' => 'Api\V1\TripsController@update'
     ]);
 });

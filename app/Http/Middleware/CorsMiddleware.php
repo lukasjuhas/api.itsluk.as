@@ -15,6 +15,14 @@ class CorsMiddleware
      */
     public function handle($request, Closure $next)
     {
+        // becuase options are sent before any other (like put) we need to
+        // handle options request first
+        if ($request->isMethod('OPTIONS')) {
+            app()->options($request->path(), function () {
+                return response('', 200);
+            });
+        }
+
         $headers = [
             'Access-Control-Allow-Origin'      => '*',
             'Access-Control-Allow-Methods'     => 'HEAD, GET, POST, PUT, PATCH, DELETE',
