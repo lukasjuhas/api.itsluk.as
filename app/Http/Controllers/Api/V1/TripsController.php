@@ -32,7 +32,7 @@ class TripsController extends ApiController
 
         $trips = Trip::orderBy('id', 'desc')->paginate($limit);
 
-        if($request->input('content')) {
+        if ($request->input('content')) {
             $trips = Trip::where('content', '!=', '')->orderBy('id', 'desc')->paginate($limit);
         } else {
             $trips = Trip::orderBy('id', 'desc')->paginate($limit);
@@ -77,11 +77,17 @@ class TripsController extends ApiController
         //
     }
 
+    /**
+     * update a trip
+     * @param Request $request
+     * @param String $slug
+     * @return mixed
+     */
     public function update(Request $request, $slug)
     {
         $trip = Trip::where('slug', $slug)->first();
 
-        if(!$trip) {
+        if (!$trip) {
             return $this->respondNotFound('Trip does not exists.');
         }
 
@@ -90,7 +96,7 @@ class TripsController extends ApiController
             'content' => $request->get('content'),
         ]);
 
-        if($update) {
+        if ($update) {
             return $this->respondUpdated($trip->id);
         }
 

@@ -59,9 +59,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    'cors' => App\Http\Middleware\CorsMiddleware::class,
+]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
@@ -69,10 +69,6 @@ $app->routeMiddleware([
 
 $app->routeMiddleware([
     'throttle' => App\Http\Middleware\ThrottleRequests::class,
-]);
-
-$app->routeMiddleware([
-    'cors' => App\Http\Middleware\CorsMiddleware::class,
 ]);
 
 /*
@@ -89,6 +85,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Intervention\Image\ImageServiceProviderLumen::class);
+$app->register(App\Providers\CatchAllOptionsReuqestsProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

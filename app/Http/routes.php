@@ -17,7 +17,7 @@ $app->get('/key', function() {
 /**
  * Trips
  */
-$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'trips'], function ($app) {
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\TripsController@index'
     ]);
@@ -31,7 +31,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'trips'], function 
         'uses' => 'Api\V1\TripsController@show'
     ]);
 
-    $app->put('{slug}', [
+    $app->patch('{slug}', [
         'uses' => 'Api\V1\TripsController@update'
     ]);
 });
@@ -39,7 +39,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'trips'], function 
 /**
  * Dispatches
  */
-$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function ($app) {
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\DispatchesController@index'
     ]);
@@ -57,7 +57,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function
 /**
  * Tags
  */
-$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'tags'], function ($app) {
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\TagsController@index'
     ]);
@@ -75,7 +75,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'tags'], function (
 /**
  * Photos
  */
-$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function ($app) {
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\PhotosController@index'
     ]);
@@ -93,7 +93,7 @@ $app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'photos'], function
 /**
  * Records
  */
-$app->group(['middleware' => 'throttle:60|cors', 'prefix' => 'records'], function ($app) {
+$app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function ($app) {
     $app->get('/', [
         'uses' => 'Api\V1\RecordsController@index'
     ]);
