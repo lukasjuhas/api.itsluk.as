@@ -18,7 +18,8 @@ class CreatePhotosTable extends Migration
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('title')->nullable();
-            $table->text('path');
+            $table->longText('caption')->nullable();
+            $table->text('thumb');
             $table->text('url');
             $table->text('data');
             $table->enum('status', ['draft', 'published'])->default('draft');
