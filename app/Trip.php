@@ -26,4 +26,9 @@ class Trip extends Model
     ];
 
     protected $table = 'trips';
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class);
+    }
 }

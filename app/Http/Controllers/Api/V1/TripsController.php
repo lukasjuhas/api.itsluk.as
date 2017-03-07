@@ -53,6 +53,7 @@ class TripsController extends ApiController
     public function show(Request $request, $slug)
     {
         $trip = Trip::where('slug', $slug)->first();
+        $photos = $trip->photos->where('status', 'published');
 
         if (!$trip) {
             return $this->respondNotFound('Trip does not exists.');
@@ -62,8 +63,10 @@ class TripsController extends ApiController
             return $this->respondNotFound('Trip does not have any content.');
         }
 
+        $content = (array) array_merge((array) $trip->toArray(), (array) $photos->toArray());
+
         return $this->respond([
-            'data' => $this->tripTransformer->transform($trip),
+            'data' => $this->tripTransformer->transform($content),
         ]);
     }
 

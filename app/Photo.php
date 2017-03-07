@@ -23,7 +23,13 @@ class Photo extends Model
         'status'
     ];
 
-    public function getDataAttribute($data) {
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class, 'trip_id');
+    }
+
+    public function getDataAttribute($data)
+    {
         $photoDataTransformer = app(\Transformers\PhotoDataTransformer::class);
         return $photoDataTransformer->transform($data);
     }

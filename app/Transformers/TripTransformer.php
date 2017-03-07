@@ -6,6 +6,16 @@ class TripTransformer extends Transformer
 {
     public function transform($trip)
     {
+        $photos = [];
+
+        foreach($trip['photos'] as $key => $photo) {
+          $photos[$key]['title'] = $photo['title'];
+          $photos[$key]['caption'] = $photo['caption'];
+          $photos[$key]['thumb'] = $photo['thumb'];
+          $photos[$key]['url'] = $photo['url'];
+          $photos[$key]['data'] = $photo['data'];
+        }
+
         return [
             'title' => $trip['name'],
             'slug' => $trip['slug'],
@@ -13,6 +23,7 @@ class TripTransformer extends Transformer
             'feature' => $trip['feature'],
             'upcoming' => (boolean) $trip['upcoming'],
             'content' => $trip['content'],
+            'photos' => $photos,
         ];
     }
 }
