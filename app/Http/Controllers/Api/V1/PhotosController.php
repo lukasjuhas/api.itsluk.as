@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\FilesystemManager as Filesystem;
-use App\Photo;
 use Intervention\Image\Facades\Image;
+use App\Photo;
+use App\Trip;
 
 class PhotosController extends ApiController
 {
@@ -77,9 +78,11 @@ class PhotosController extends ApiController
 
         // print_r($request->file('photo')); die();
         // validate fields
-        if (!$request->hasFile('photo')) {
+        if (!$request->hasFile('photo') || !$request->get('trip')) {
             return $this->respondWithValidationError('Parameters failed validation for a photo.');
         }
+
+        $trip = Trip::where('slug', $request->get('trip'))->first();
 
         foreach ($request->file('photo') as $key => $photo) {
             $filename  = time() . '.' . $photo->getClientOriginalExtension();
@@ -112,6 +115,7 @@ class PhotosController extends ApiController
             if ($file && $thumb) {
                 $photo = Photo::create([
                   'user_id' => 1,
+                  'trip_id' => $trip->id,
                   'title' => $filename,
                   'caption' => '',
                   'thumb' => $filesystem->disk('s3')->url($path_thumb),
