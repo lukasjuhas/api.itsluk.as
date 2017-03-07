@@ -279,7 +279,7 @@ class TripsTableSeeder extends Seeder
             'location'       => 'New York, California, Nashville',
             'date_string'    => 'September 2016',
             'feature'        => '',
-            'content'        => '',
+            'content'        => 'USA',
             'upcoming'       => false,
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),

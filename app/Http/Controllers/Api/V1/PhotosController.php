@@ -68,26 +68,33 @@ class PhotosController extends ApiController
      */
     public function store(Request $request, Filesystem $filesystem)
     {
+        // dd($request);
         // validate user request
-        $user = $this->getRequestingUser($request);
-        if (!$user) {
-            return $this->respondWithValidationError('Authentication failed validation for a photo.');
-        }
+        // $user = $this->getRequestingUser($request);
+        // if (!$user) {
+        //     return $this->respondWithValidationError('Authentication failed validation for a photo.');
+        // }
 
+        // print_r($request->file('photo')); die();
         // validate fields
         if (!$request->hasFile('photo')) {
             return $this->respondWithValidationError('Parameters failed validation for a photo.');
         }
 
-        $titles = $request->get('title');
-
         foreach ($request->file('photo') as $key => $photo) {
             $filename  = time() . '.' . $photo->getClientOriginalExtension();
             $path = $this->aws_path . $filename;
+            $path_thumb = $this->aws_path . 'thumb_' . $filename;
 
             $formated_image = Image::make($photo)->resize(null, 700, function ($constraint) {
                 $constraint->aspectRatio();
             })->encode('jpg');
+
+            $canvas = Image::canvas(250, 250, '#000000');
+            $formated_thumb = Image::make($photo)->resize(250, 250, function ($constraint) {
+                $constraint->aspectRatio();
+            })->encode('jpg');
+            $canvas->insert($formated_thumb, 'center');
 
 
             $exif = $formated_image->exif();
@@ -96,15 +103,18 @@ class PhotosController extends ApiController
             unset($exif['MakerNote']);
 
             $formated_image = $formated_image->stream();
+            $canvas = $canvas->stream();
 
             // upload to AWS
             $file = $filesystem->disk('s3')->put($path, $formated_image->__toString());
+            $thumb = $filesystem->disk('s3')->put($path_thumb, $canvas->__toString());
 
-            if ($file) {
+            if ($file && $thumb) {
                 $photo = Photo::create([
-                  'user_id' => $user->id,
-                  'title' => $titles[$key],
-                  'path' => '/' . $path,
+                  'user_id' => 1,
+                  'title' => $filename,
+                  'caption' => '',
+                  'thumb' => $filesystem->disk('s3')->url($path_thumb),
                   'url' => $filesystem->disk('s3')->url($path),
                   'data' => serialize($exif),
                   'status' => 'published'
