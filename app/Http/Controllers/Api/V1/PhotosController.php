@@ -123,9 +123,9 @@ class PhotosController extends ApiController
         }
 
         if ($photo) {
-            return $this->respondCreated($photo->id, 'Photo successfully created.');
+            return $this->respondCreated('Photos successfully uploaded.');
         }
 
-        return $this->respondInternalError('There was a problem creating a new photo.');
+        return $this->respondInternalError('There was a problem uploading new photos.');
     }
 }

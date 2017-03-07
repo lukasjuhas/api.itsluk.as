@@ -87,12 +87,20 @@ class ApiController extends BaseController
      * @param string $message
      * @return mixed
      */
-    public function respondCreated($id, $message = 'Successfully created.')
+    public function respondCreated($message = 'Successfully created.', $id = false)
     {
-        return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond([
-            'id' => $id,
-            'message' => $message
-        ]);
+        if ($id) {
+            $response = [
+              'id' => $id,
+              'message' => $message
+          ];
+        } else {
+            $response = [
+              'message' => $message
+          ];
+        }
+
+        return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)->respond($response);
     }
 
     /**

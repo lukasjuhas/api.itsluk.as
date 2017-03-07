@@ -79,7 +79,7 @@ class DispatchesController extends ApiController
         $dispatch = Dispatch::create($request->all());
 
         if ($dispatch) {
-            return $this->respondCreated($dispatch->id, 'Dispatch successfully created.');
+            return $this->respondCreated('Dispatch successfully created.', $dispatch->id);
         }
 
         return $this->respondInternalError('There was a problem creating a new dispatch.');
