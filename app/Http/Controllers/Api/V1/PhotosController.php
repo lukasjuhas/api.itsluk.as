@@ -145,7 +145,7 @@ class PhotosController extends ApiController
     {
         $photos = $request->get('photos');
 
-        if (!photos) {
+        if (!$photos) {
             return $this->respondWithValidationError();
         }
 

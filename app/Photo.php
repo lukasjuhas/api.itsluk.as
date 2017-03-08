@@ -19,6 +19,7 @@ class Photo extends Model
         'caption',
         'thumb',
         'url',
+        'order',
         'data',
         'status'
     ];

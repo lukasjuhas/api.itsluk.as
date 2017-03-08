@@ -34,6 +34,10 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
     $app->put('{slug}', [
         'uses' => 'Api\V1\TripsController@update'
     ]);
+
+    $app->put('{slug}/order', [
+        'uses' => 'Api\V1\PhotosController@updateOrder'
+    ]);
 });
 
 /**
@@ -87,10 +91,6 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
 
     $app->get('{id}', [
         'uses' => 'Api\V1\PhotosController@show'
-    ]);
-
-    $app->put('{id}/order', [
-        'uses' => 'Api\V1\PhotosController@updateOrder'
     ]);
 });
 

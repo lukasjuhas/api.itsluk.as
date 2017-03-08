@@ -9,6 +9,7 @@ class TripTransformer extends Transformer
         $photos = [];
 
         foreach($trip['photos'] as $key => $photo) {
+          $photos[$key]['id'] = $photo['id'];
           $photos[$key]['title'] = $photo['title'];
           $photos[$key]['caption'] = $photo['caption'];
           $photos[$key]['thumb'] = $photo['thumb'];
