@@ -88,6 +88,10 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
     $app->get('{id}', [
         'uses' => 'Api\V1\PhotosController@show'
     ]);
+
+    $app->put('{id}/order', [
+        'uses' => 'Api\V1\PhotosController@updateOrder'
+    ]);
 });
 
 /**

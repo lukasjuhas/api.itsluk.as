@@ -89,10 +89,13 @@ class PhotosController extends ApiController
             $path = $this->aws_path . $filename;
             $path_thumb = $this->aws_path . 'thumb_' . $filename;
 
+            // create image size for post
             $formated_image = Image::make($photo)->resize(null, 700, function ($constraint) {
                 $constraint->aspectRatio();
             })->encode('jpg');
 
+
+            // createa thumbnail
             $canvas = Image::canvas(250, 250, '#000000');
             $formated_thumb = Image::make($photo)->resize(250, 250, function ($constraint) {
                 $constraint->aspectRatio();
@@ -114,15 +117,15 @@ class PhotosController extends ApiController
 
             if ($file && $thumb) {
                 $photo = Photo::create([
-                  'user_id' => 1,
-                  'trip_id' => $trip->id,
-                  'title' => $filename,
-                  'caption' => '',
-                  'thumb' => $filesystem->disk('s3')->url($path_thumb),
-                  'url' => $filesystem->disk('s3')->url($path),
-                  'data' => serialize($exif),
-                  'status' => 'published'
-              ]);
+                    'user_id' => 1,
+                    'trip_id' => $trip->id,
+                    'title' => $filename,
+                    'caption' => '',
+                    'thumb' => $filesystem->disk('s3')->url($path_thumb),
+                    'url' => $filesystem->disk('s3')->url($path),
+                    'data' => serialize($exif),
+                    'status' => 'published'
+                ]);
             }
         }
 
@@ -131,5 +134,37 @@ class PhotosController extends ApiController
         }
 
         return $this->respondInternalError('There was a problem uploading new photos.');
+    }
+
+    /**
+     * update order
+     * @param Request $request
+     * @return mixed
+     */
+    public function updateOrder(Request $request)
+    {
+        $photos = $request->get('photos');
+
+        if (!photos) {
+            return $this->respondWithValidationError();
+        }
+
+        foreach ($photos as $id => $order) {
+            $photo = Photo::where('id', $id)->first();
+
+            if (!$photo) {
+                continue;
+            }
+
+            $update = $photo->update([
+                'order' => $order,
+            ]);
+        }
+
+        if ($update) {
+            return $this->respondUpdated('Order updated.');
+        }
+
+        return $this->respondWithError('There was problem updating trip.');
     }
 }

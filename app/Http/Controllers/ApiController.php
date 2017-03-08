@@ -109,12 +109,20 @@ class ApiController extends BaseController
      * @param string $message
      * @return mixed
      */
-    public function respondUpdated($id, $message = 'Successfully updated.')
+    public function respondUpdated($message = 'Successfully updated.', $id = false)
     {
-        return $this->setStatusCode(IlluminateResponse::HTTP_OK)->respond([
-            'id' => $id,
-            'message' => $message
-        ]);
+        if ($id) {
+            $response = [
+              'id' => $id,
+              'message' => $message
+          ];
+        } else {
+            $response = [
+              'message' => $message
+          ];
+        }
+
+        return $this->setStatusCode(IlluminateResponse::HTTP_OK)->respond($response);
     }
 
     /**

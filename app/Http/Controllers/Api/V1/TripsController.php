@@ -100,7 +100,7 @@ class TripsController extends ApiController
         ]);
 
         if ($update) {
-            return $this->respondUpdated($trip->id);
+            return $this->respondUpdated(false, $trip->id);
         }
 
         return $this->respondWithError('There was problem updating trip.');
