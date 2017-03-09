@@ -7,7 +7,7 @@ class PhotoDataTransformer extends Transformer
     public function transform($data)
     {
         $data = unserialize($data);
-        
+
         return [
             'MimeType' => $data['MimeType'],
             'Make' => $data['Make'],
@@ -16,7 +16,8 @@ class PhotoDataTransformer extends Transformer
             'ExposureTime' => $data['ExposureTime'],
             'FNumber' => $data['FNumber'],
             'DateTimeOriginal' => $data['DateTimeOriginal'],
-            'FocalLength' => $data['FocalLength']
+            'FocalLength' => $data['FocalLength'],
+            'ISOSpeedRatings' => $data['ISOSpeedRatings'],
         ];
     }
 }
