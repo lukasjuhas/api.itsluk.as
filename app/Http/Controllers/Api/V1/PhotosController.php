@@ -105,6 +105,10 @@ class PhotosController extends ApiController
 
             $exif = $formated_image->exif();
 
+            $size = [];
+            $size['width'] = $formated_image->width();
+            $size['height'] = $formated_image->height();
+
             // This is causing errors because of some sort of formating
             unset($exif['MakerNote']);
 
@@ -123,6 +127,7 @@ class PhotosController extends ApiController
                     'caption' => '',
                     'thumb' => $filesystem->disk('s3')->url($path_thumb),
                     'url' => $filesystem->disk('s3')->url($path),
+                    'size' => serialize($size),
                     'data' => serialize($exif),
                     'status' => 'published'
                 ]);
