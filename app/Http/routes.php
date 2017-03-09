@@ -38,6 +38,10 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
     $app->put('{slug}/order', [
         'uses' => 'Api\V1\PhotosController@updateOrder'
     ]);
+
+    $app->put('{slug}/update-feature', [
+        'uses' => 'Api\V1\TripsController@updateFeature'
+    ]);
 });
 
 /**

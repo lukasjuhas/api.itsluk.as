@@ -105,4 +105,29 @@ class TripsController extends ApiController
 
         return $this->respondWithError('There was problem updating trip.');
     }
+
+    /**
+     * update a trip featured image
+     * @param Request $request
+     * @param String $slug
+     * @return mixed
+     */
+    public function updateFeature(Request $request, $slug)
+    {
+        $trip = Trip::where('slug', $slug)->first();
+
+        if (!$trip) {
+            return $this->respondNotFound('Trip does not exists.');
+        }
+
+        $update = $trip->update([
+            'feature' => $request->get('photo'),
+        ]);
+
+        if ($update) {
+            return $this->respondUpdated('Trip feature successfully updated.', $trip->id);
+        }
+
+        return $this->respondWithError('There was problem updating trip feature.');
+    }
 }
