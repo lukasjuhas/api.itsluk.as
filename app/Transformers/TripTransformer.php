@@ -8,17 +8,17 @@ class TripTransformer extends Transformer
     {
         $photos = [];
 
-        foreach($trip['photos'] as $key => $photo) {
-          $size = unserialize($photo['size']);
+        foreach ($trip['photos'] as $key => $photo) {
+            $size = unserialize($photo['size']);
           
-          $photos[$key]['id'] = $photo['id'];
-          $photos[$key]['title'] = $photo['title'];
-          $photos[$key]['caption'] = $photo['caption'];
-          $photos[$key]['thumb'] = $photo['thumb'];
-          $photos[$key]['url'] = $photo['url'];
-          $photos[$key]['width'] = $size['width'];
-          $photos[$key]['height'] = $size['height'];
-          $photos[$key]['data'] = $photo['data'];
+            $photos[$key]['id'] = $photo['id'];
+            $photos[$key]['title'] = $photo['title'];
+            $photos[$key]['caption'] = $photo['caption'];
+            $photos[$key]['thumb'] = $photo['thumb'];
+            $photos[$key]['url'] = $photo['url'];
+            $photos[$key]['width'] = $size['width'];
+            $photos[$key]['height'] = $size['height'];
+            $photos[$key]['data'] = $photo['data'];
         }
 
         return [

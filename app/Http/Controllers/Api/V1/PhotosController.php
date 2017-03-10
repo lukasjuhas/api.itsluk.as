@@ -167,9 +167,41 @@ class PhotosController extends ApiController
         }
 
         if ($update) {
-            return $this->respondUpdated('Order updated.');
+            return $this->respondUpdated('Photo order updated.');
         }
 
-        return $this->respondWithError('There was problem updating trip.');
+        return $this->respondWithError('There was problem updating order of the photos.');
+    }
+
+    /**
+     * remove photo
+     * @param Int $id
+     * @return mixed
+     */
+    public function delete($id, Filesystem $filesystem)
+    {
+        if (!$id) {
+            return $this->respondWithValidationError();
+        }
+
+        $photo = Photo::where('id', $id)->first();
+
+        // remove from aws
+        $file = $filesystem->disk('s3')->delete('photos/' . basename($photo->url));
+        $thumb = $filesystem->disk('s3')->delete('photos/' . basename($photo->thumb));
+
+        // if there is problem removing from aws
+        if (!$file || !$thumb) {
+            return $this->respondWithError('There was problem removing your photo in AWS.');
+        }
+
+        // remove from the database
+        $deleted = $photo->delete();
+
+        if ($deleted) {
+            return $this->respondUpdated('Photo successfully removed.');
+        }
+
+        return $this->respondWithError('There was problem removing your photo.');
     }
 }

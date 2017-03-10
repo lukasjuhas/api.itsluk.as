@@ -10,7 +10,7 @@ $app->get('/', [
 /**
  * Key Generator
  */
-$app->get('/key', function() {
+$app->get('/key', function () {
     return str_random(32);
 });
 
@@ -95,6 +95,10 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
 
     $app->get('{id}', [
         'uses' => 'Api\V1\PhotosController@show'
+    ]);
+
+    $app->delete('{id}', [
+        'uses' => 'Api\V1\PhotosController@delete'
     ]);
 });
 
