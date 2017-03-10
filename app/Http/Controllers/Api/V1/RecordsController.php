@@ -8,6 +8,7 @@ use Transformers\RecordTransformer;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use Illuminate\Http\Request;
 
 class RecordsController extends ApiController
 {
@@ -21,7 +22,7 @@ class RecordsController extends ApiController
         $this->recordTransformer = $recordTransformer;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         // $token = false;
         //
@@ -92,16 +93,38 @@ class RecordsController extends ApiController
             ]
         ]);
 
-        $response = $client->request('GET', 'users/itslukas/collection?per_page=25', ['auth' => 'oauth']);
+        if($request->get('page')) {
+            $response = $client->request('GET', 'users/itslukas/collection?per_page=25&page=' . $request->get('page'), ['auth' => 'oauth']);
+        } else {
+            $response = $client->request('GET', 'users/itslukas/collection?per_page=25', ['auth' => 'oauth']);
+        }
+
         $response_body = (array) json_decode($response->getBody());
         $items = $this->recordTransformer->transformCollection($response_body['releases']);
+
+        // dd($response_body['pagination']);
+        if(isset($response_body['pagination']->urls->next)) {
+            $next_parse_url = parse_url($response_body['pagination']->urls->next);
+            $next_parse = parse_str($next_parse_url['query'], $next);
+        } else {
+            $next = false;
+        }
+
+        if(isset($response_body['pagination']->urls->prev)) {
+            $prev_parse_url = parse_url($response_body['pagination']->urls->prev);
+            parse_str($prev_parse_url['query'], $prev);
+        } else {
+            $prev = false;
+        }
 
         return $this->respond([
             'paginator' => [
                 'total_count' => $response_body['pagination']->items,
-                'current_page' => $response_body['pagination']->page,
                 'total_pages' => $response_body['pagination']->pages,
-                'limit' => $response_body['pagination']->per_page
+                'current_page' => $response_body['pagination']->page,
+                'limit' => $response_body['pagination']->per_page,
+                'next_page' => $next['page'] ? 'https://api.itsluk.dev/records?page=' . $next['page'] : null,
+                'prev_page' => $prev['page'] ? 'https://api.itsluk.dev/records?page=' . $prev['page'] : null,
             ],
             'data' => $items,
         ]);
@@ -147,9 +170,11 @@ class RecordsController extends ApiController
         return $this->respond([
             'paginator' => [
                 'total_count' => $response_body['pagination']->items,
-                'current_page' => $response_body['pagination']->page,
                 'total_pages' => $response_body['pagination']->pages,
-                'limit' => $response_body['pagination']->per_page
+                'current_page' => $response_body['pagination']->page,
+                'limit' => $response_body['pagination']->per_page,
+                'next_page' => 'https://api.itsluk.dev/records?page=3',
+                'prev_page' => 'https://api.itsluk.dev/records?page=3'
             ],
             'data' => $items,
         ]);
