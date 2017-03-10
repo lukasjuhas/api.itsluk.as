@@ -97,6 +97,10 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
         'uses' => 'Api\V1\PhotosController@show'
     ]);
 
+    $app->put('{id}', [
+        'uses' => 'Api\V1\PhotosController@update'
+    ]);
+
     $app->delete('{id}', [
         'uses' => 'Api\V1\PhotosController@delete'
     ]);

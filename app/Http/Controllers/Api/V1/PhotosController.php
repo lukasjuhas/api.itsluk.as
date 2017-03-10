@@ -142,6 +142,31 @@ class PhotosController extends ApiController
     }
 
     /**
+     * update photo
+     * @param Request $request
+     * @param Int $id
+     * @return mixed
+     */
+    public function update(Request $request, $id)
+    {
+        $photo = Photo::where('id', $id)->first();
+
+        if (!$photo) {
+            return $this->respondNotFound('Photo does not exists.');
+        }
+
+        $update = $photo->update([
+            'caption' => $request->get('content'),
+        ]);
+
+        if ($update) {
+            return $this->respondUpdated('Photo caption successfully updated.', $photo->id);
+        }
+
+        return $this->respondWithError('There was problem updating caption.');
+    }
+
+    /**
      * update order
      * @param Request $request
      * @return mixed
