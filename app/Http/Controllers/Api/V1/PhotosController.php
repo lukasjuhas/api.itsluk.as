@@ -8,6 +8,7 @@ use Illuminate\Filesystem\FilesystemManager as Filesystem;
 use Intervention\Image\Facades\Image;
 use App\Photo;
 use App\Trip;
+use Kraken;
 
 class PhotosController extends ApiController
 {
@@ -125,9 +126,40 @@ class PhotosController extends ApiController
             $formated_image = $formated_image->stream();
             $canvas = $canvas->stream();
 
+            $local_file = $filesystem->disk('public')->put('photos/' . $filename, $formated_image->__toString());
+            $local_thumb = $filesystem->disk('public')->put('photos/thumb_' . $filename, $canvas->__toString());
+
+            $file_final_path = $path;
+            $thumb_final_path = $path_thumb;
+
+            // dd($filesystem->url('photos/' . $filename));
+            // KRAKE images
+            // try {
+              $kraken = new Kraken(env('KRAKEN_API_KEY'), env('KRAKEN_API_SECRET'));
+              if ($kraken) {
+                  $krake_file = $kraken->upload([
+                    'file' => $filesystem->url('photos/' . $filename),
+                    'preserve_meta' => array('date', 'copyright', 'geotag', 'orientation', 'profile'),
+                    'wait' => true,
+                  ]);
+
+                  $krake_thumb = $kraken->url([
+                    'file' => $filesystem->url('photos/thumb_' . $filename),
+                    'wait' => true,
+                  ]);
+
+                  dd($krake_file);
+                  $file_final_path = $krake_file['kraked_url'];
+                  $thumb_final_path = $krake_thumb['kraked_url'];
+              }
+            // } catch(Exception $e) {
+            //     echo 'Exception';
+            //     dd($e);
+            // }
+
             // upload to AWS
-            $file = $filesystem->disk('s3')->put($path, $formated_image->__toString());
-            $thumb = $filesystem->disk('s3')->put($path_thumb, $canvas->__toString());
+            $file = $filesystem->disk('s3')->put($file_final_path, $formated_image->__toString());
+            $thumb = $filesystem->disk('s3')->put($thumb_final_path, $canvas->__toString());
 
             // if succesfully uploaded to AWS, create record in the database
             if ($file && $thumb) {
@@ -136,8 +168,8 @@ class PhotosController extends ApiController
                     'trip_id' => $trip->id,
                     'title' => $filename,
                     'caption' => '',
-                    'thumb' => $filesystem->disk('s3')->url($path_thumb),
-                    'url' => $filesystem->disk('s3')->url($path),
+                    'thumb' => $filesystem->disk('s3')->url($thumb_final_path),
+                    'url' => $filesystem->disk('s3')->url($file_final_path),
                     'size' => serialize($size),
                     'orientation' => $orientation,
                     'data' => serialize($exif),

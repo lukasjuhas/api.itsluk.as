@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a3f03eb1fd1148532eb26aebb92e846",
+    "content-hash": "0dd7e270e0881870d850f1da80bd5def",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.24.0",
+            "version": "3.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3aacac064f40fcfdf8ecde2102a73d18b8b744d0"
+                "reference": "81d79a486c7628d5fd282259bd6f9a0570d3eb41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3aacac064f40fcfdf8ecde2102a73d18b8b744d0",
-                "reference": "3aacac064f40fcfdf8ecde2102a73d18b8b744d0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/81d79a486c7628d5fd282259bd6f9a0570d3eb41",
+                "reference": "81d79a486c7628d5fd282259bd6f9a0570d3eb41",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-03-08T23:57:18+00:00"
+            "time": "2017-03-09T21:48:33+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1557,6 +1557,43 @@
                 "watermark"
             ],
             "time": "2017-02-04T10:37:19+00:00"
+        },
+        {
+            "name": "kraken-io/kraken-php",
+            "version": "1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kraken-io/kraken-php.git",
+                "reference": "56563df1b9a7829f7039cc6e712cf89fab655e26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kraken-io/kraken-php/zipball/56563df1b9a7829f7039cc6e712cf89fab655e26",
+                "reference": "56563df1b9a7829f7039cc6e712cf89fab655e26",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Kraken": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kraken Image Optimizer",
+                    "email": "support@kraken.io"
+                }
+            ],
+            "description": "Official Kraken.io SDK",
+            "time": "2016-07-26T08:03:24+00:00"
         },
         {
             "name": "laravel/lumen-framework",
