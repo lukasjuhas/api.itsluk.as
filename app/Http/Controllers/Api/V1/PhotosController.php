@@ -102,16 +102,26 @@ class PhotosController extends ApiController
             })->encode('jpg');
             $canvas->insert($formated_thumb, 'center');
 
-
+            // set exif
             $exif = $formated_image->exif();
 
+            // set size
             $size = [];
             $size['width'] = $formated_image->width();
             $size['height'] = $formated_image->height();
 
+            // set orientation
+            $orientation = 'portrait';
+            if ($size['width'] > $size['height']) {
+                $orientation = 'landscape';
+            } elseif ($size['width'] === $size['height']) {
+                $orientation = 'square';
+            }
+
             // This is causing errors because of some sort of formating
             unset($exif['MakerNote']);
 
+            // create stream for iamges
             $formated_image = $formated_image->stream();
             $canvas = $canvas->stream();
 
@@ -119,6 +129,7 @@ class PhotosController extends ApiController
             $file = $filesystem->disk('s3')->put($path, $formated_image->__toString());
             $thumb = $filesystem->disk('s3')->put($path_thumb, $canvas->__toString());
 
+            // if succesfully uploaded to AWS, create record in the database
             if ($file && $thumb) {
                 $photo = Photo::create([
                     'user_id' => 1,
@@ -128,12 +139,14 @@ class PhotosController extends ApiController
                     'thumb' => $filesystem->disk('s3')->url($path_thumb),
                     'url' => $filesystem->disk('s3')->url($path),
                     'size' => serialize($size),
+                    'orientation' => $orientation,
                     'data' => serialize($exif),
                     'status' => 'published'
                 ]);
             }
         }
 
+        // send propriet response
         if ($photo) {
             return $this->respondCreated('Photos successfully uploaded.');
         }

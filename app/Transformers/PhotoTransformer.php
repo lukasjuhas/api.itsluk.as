@@ -12,6 +12,7 @@ class PhotoTransformer extends Transformer
             'thumb' => $photo['thumb'],
             'url' => $photo['url'],
             'caption' => $photo['caption'],
+            'orientation' => $photo['orientation'],
             'data' => $photo['data'],
         ];
     }

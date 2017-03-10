@@ -10,7 +10,7 @@ class TripTransformer extends Transformer
 
         foreach ($trip['photos'] as $key => $photo) {
             $size = unserialize($photo['size']);
-          
+
             $photos[$key]['id'] = $photo['id'];
             $photos[$key]['title'] = $photo['title'];
             $photos[$key]['caption'] = $photo['caption'];
@@ -18,6 +18,7 @@ class TripTransformer extends Transformer
             $photos[$key]['url'] = $photo['url'];
             $photos[$key]['width'] = $size['width'];
             $photos[$key]['height'] = $size['height'];
+            $photos[$key]['orientation'] = $photo['orientation'];
             $photos[$key]['data'] = $photo['data'];
         }
 

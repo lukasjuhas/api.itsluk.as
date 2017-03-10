@@ -21,6 +21,7 @@ class Photo extends Model
         'url',
         'order',
         'size',
+        'orientation',
         'data',
         'status'
     ];

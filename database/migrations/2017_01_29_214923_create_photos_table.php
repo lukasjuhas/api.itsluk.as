@@ -25,6 +25,7 @@ class CreatePhotosTable extends Migration
             $table->text('url');
             $table->integer('order')->nullable();
             $table->string('size')->nullable();
+            $table->enum('orientation', ['portrait', 'landscape', 'square'])->nullable();
             $table->text('data');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->softDeletes();
