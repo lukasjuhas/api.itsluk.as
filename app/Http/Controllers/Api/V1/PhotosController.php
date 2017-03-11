@@ -70,14 +70,6 @@ class PhotosController extends ApiController
      */
     public function store(Request $request, Filesystem $filesystem)
     {
-        // dd($request);
-        // validate user request
-        // $user = $this->getRequestingUser($request);
-        // if (!$user) {
-        //     return $this->respondWithValidationError('Authentication failed validation for a photo.');
-        // }
-
-        // print_r($request->file('photo')); die();
         // validate fields
         if (!$request->hasFile('photo') || !$request->get('trip')) {
             return $this->respondWithValidationError('Parameters failed validation for a photo.');
@@ -103,7 +95,7 @@ class PhotosController extends ApiController
             })->encode('jpg');
             $canvas->insert($formated_thumb, 'center');
 
-            // set exif
+            // set exif so we can save this in to DB before we optimise images
             $exif = $formated_image->exif();
 
             // set size
@@ -126,55 +118,57 @@ class PhotosController extends ApiController
             $formated_image = $formated_image->stream();
             $canvas = $canvas->stream();
 
-            $local_file = $filesystem->disk('public')->put('photos/' . $filename, $formated_image->__toString());
-            $local_thumb = $filesystem->disk('public')->put('photos/thumb_' . $filename, $canvas->__toString());
+            // save to aws, they will get overwritten after krakening
+            $file = $filesystem->disk('s3')->put($path, $formated_image->__toString());
+            $thumb = $filesystem->disk('s3')->put($path_thumb, $canvas->__toString());
 
-            $file_final_path = $path;
-            $thumb_final_path = $path_thumb;
-
-            // dd($filesystem->url('photos/' . $filename));
-            // KRAKE images
-            // try {
-              $kraken = new Kraken(env('KRAKEN_API_KEY'), env('KRAKEN_API_SECRET'));
-              if ($kraken) {
-                  $krake_file = $kraken->upload([
-                    'file' => $filesystem->url('photos/' . $filename),
-                    'preserve_meta' => array('date', 'copyright', 'geotag', 'orientation', 'profile'),
+            // KRAKE image
+            $kraken = new Kraken(env('KRAKEN_API_KEY'), env('KRAKEN_API_SECRET'));
+            if($kraken && $file) {
+                $krake_file = $kraken->upload([
+                    'file' => $filesystem->disk('s3')->url($path),
                     'wait' => true,
-                  ]);
-
-                  $krake_thumb = $kraken->url([
-                    'file' => $filesystem->url('photos/thumb_' . $filename),
-                    'wait' => true,
-                  ]);
-
-                  dd($krake_file);
-                  $file_final_path = $krake_file['kraked_url'];
-                  $thumb_final_path = $krake_thumb['kraked_url'];
-              }
-            // } catch(Exception $e) {
-            //     echo 'Exception';
-            //     dd($e);
-            // }
-
-            // upload to AWS
-            $file = $filesystem->disk('s3')->put($file_final_path, $formated_image->__toString());
-            $thumb = $filesystem->disk('s3')->put($thumb_final_path, $canvas->__toString());
-
-            // if succesfully uploaded to AWS, create record in the database
-            if ($file && $thumb) {
-                $photo = Photo::create([
-                    'user_id' => 1,
-                    'trip_id' => $trip->id,
-                    'title' => $filename,
-                    'caption' => '',
-                    'thumb' => $filesystem->disk('s3')->url($thumb_final_path),
-                    'url' => $filesystem->disk('s3')->url($file_final_path),
-                    'size' => serialize($size),
-                    'orientation' => $orientation,
-                    'data' => serialize($exif),
-                    'status' => 'published'
+                    's3_store' => [
+                        'key' => env('AWS_KEY'),
+                        'secret' => env('AWS_SECRET'),
+                        'region' => env('AWS_REGION'),
+                        'bucket' => env('AWS_BUCKET'),
+                        'path' => $path,
+                    ]
                 ]);
+            }
+
+            // KRAKE thumb
+            if($kraken && $thumb) {
+                $krake_thumb = $kraken->upload([
+                    'file' => $filesystem->disk('s3')->url($path_thumb),
+                    'wait' => true,
+                    's3_store' => [
+                        'key' => env('AWS_KEY'),
+                        'secret' => env('AWS_SECRET'),
+                        'region' => env('AWS_REGION'),
+                        'bucket' => env('AWS_BUCKET'),
+                        'path' => $path_thumb,
+                    ]
+                ]);
+            }
+
+            $file_url = $filesystem->disk('s3')->url($path);
+            $thumb_url = $filesystem->disk('s3')->url($path_thumb);
+
+            if($file_url) {
+              $photo = Photo::create([
+                  'user_id' => 1,
+                  'trip_id' => $trip->id,
+                  'title' => $filename,
+                  'caption' => '',
+                  'thumb' => $thumb_url,
+                  'url' => $file_url,
+                  'size' => serialize($size),
+                  'orientation' => $orientation,
+                  'data' => serialize($exif),
+                  'status' => 'published'
+              ]);
             }
         }
 
