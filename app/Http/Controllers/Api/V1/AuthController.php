@@ -30,16 +30,16 @@ class AuthController extends ApiController
 
         try {
             if (! $token = $this->jwt->attempt($request->only('email', 'password'))) {
-                return response()->json(['user_not_found'], 404);
+                return $this->respondWithError('User not found.');
             }
         } catch (TokenExpiredException $e) {
-            return response()->json(['token_expired'], $e->getStatusCode());
+            return $this->setStatusCode($e->getStatusCode())->respondWithError('Token Expired.');
         } catch (TokenInvalidException $e) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
+            return $this->setStatusCode($e->getStatusCode())->respondWithError('Token invalid.');
         } catch (JWTException $e) {
-            return response()->json(['token_absent' => $e->getMessage()], $e->getStatusCode());
+            return $this->setStatusCode($e->getStatusCode())->respondWithError('Token absent.');
         }
 
-        return response()->json(compact('token'));
+        return $this->respond(compact('token'));
     }
 }
