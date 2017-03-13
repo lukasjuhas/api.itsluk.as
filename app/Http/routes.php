@@ -9,7 +9,7 @@ $app->get('/', [
 
 $app->post('/login', [
     'middleware' => 'throttle:60',
-    'uses' => 'Api\V1\UserController@login'
+    'uses' => 'Api\V1\AuthController@loginPost'
 ]);
 
 /**
