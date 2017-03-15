@@ -33,11 +33,11 @@ class AuthController extends ApiController
                 return $this->respondWithError('User not found.');
             }
         } catch (TokenExpiredException $e) {
-            return $this->setStatusCode($e->getStatusCode())->respondWithError('Token Expired.');
+            return $this->respondWithUnauthorised($e->getMessage());
         } catch (TokenInvalidException $e) {
-            return $this->setStatusCode($e->getStatusCode())->respondWithError('Token invalid.');
+            return $this->respondWithUnauthorised($e->getMessage());
         } catch (JWTException $e) {
-            return $this->setStatusCode($e->getStatusCode())->respondWithError('Token absent.');
+            return $this->respondWithError($e->getMessage());
         }
 
         return $this->respond(compact('token'));

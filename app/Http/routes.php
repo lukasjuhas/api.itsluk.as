@@ -7,6 +7,11 @@ $app->get('/', [
     'uses' => 'Api\V1\GeneralController@index'
 ]);
 
+$app->get('/auth', [
+    'middleware' => 'throttle:60',
+    'uses' => 'Api\V1\UserController@getAuthenticatedUser',
+]);
+
 $app->post('/login', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\AuthController@loginPost'

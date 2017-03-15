@@ -140,7 +140,7 @@ class ApiController extends BaseController
      * @param String $message
      * @return mixed
      */
-    public function respondWithError($message)
+    public function respondWithError($message = 'There was an error.')
     {
         return $this->respond([
             'error' => [
@@ -148,6 +148,27 @@ class ApiController extends BaseController
                 'status_code' => $this->getStatusCode()
             ]
         ]);
+    }
+
+    /**
+     * respond with success
+     * @param String $message
+     * @return mixed
+     */
+    public function respondWithSuccess($message = 'Success!', $data = false)
+    {
+        if ($data) {
+            $response = [
+              'id' => $data,
+              'message' => $message
+          ];
+        } else {
+            $response = [
+              'message' => $message
+          ];
+        }
+
+        return $this->setStatusCode(IlluminateResponse::HTTP_OK)->respond($response);
     }
 
     /**
@@ -172,5 +193,15 @@ class ApiController extends BaseController
         }
 
         return $user;
+    }
+
+    /**
+     * unauthorised
+     * @param string $message
+     * @return mixed
+     */
+    public function respondWithUnauthorised($message = 'Unauthorised')
+    {
+        return $this->setStatusCode(IlluminateResponse::HTTP_UNAUTHORIZED)->respondWithError($message);
     }
 }
