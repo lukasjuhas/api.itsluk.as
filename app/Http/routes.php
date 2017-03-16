@@ -14,7 +14,12 @@ $app->get('/auth', [
 
 $app->post('/login', [
     'middleware' => 'throttle:60',
-    'uses' => 'Api\V1\AuthController@loginPost'
+    'uses' => 'Api\V1\AuthController@login'
+]);
+
+$app->post('/logout', [
+    'middleware' => 'throttle:60',
+    'uses' => 'Api\V1\AuthController@logout'
 ]);
 
 /**

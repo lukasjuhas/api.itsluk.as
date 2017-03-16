@@ -21,11 +21,16 @@ class AuthController extends ApiController
         $this->jwt = $jwt;
     }
 
-    public function loginPost(Request $request)
+    /**
+     * login
+     * @param Request $request
+     * @return mixed
+     */
+    public function login(Request $request)
     {
         $this->validate($request, [
             'email'    => 'required|email|max:255',
-            'password' => 'required',
+            'password' => 'required'
         ]);
 
         try {
@@ -41,5 +46,21 @@ class AuthController extends ApiController
         }
 
         return $this->respond(compact('token'));
+    }
+
+    /**
+     * logout
+     * @param Request $request
+     * @return mixed
+     */
+    public function logout(Request $request)
+    {
+        $logout = $this->jwt->invalidate($this->jwt->parseToken());
+
+        if ($logout) {
+            return $this->respondWithSuccess('Succesfully Logged out.');
+        }
+
+        return $this->respondWithError('There was problem logging you out.');
     }
 }
