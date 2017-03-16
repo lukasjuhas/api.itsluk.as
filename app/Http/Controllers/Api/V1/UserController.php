@@ -17,12 +17,20 @@ class UserController extends ApiController
      */
     protected $jwt;
 
+    /**
+     *
+     * constructor
+     * @param JWTAuth $jwt
+     */
     public function __construct(JWTAuth $jwt)
     {
         $this->jwt = $jwt;
     }
 
-    // somewhere in your controller
+    /**
+     * authenticate user
+     * @return mmixed
+     */
     public function getAuthenticatedUser()
     {
         try {
@@ -30,7 +38,6 @@ class UserController extends ApiController
                 return $this->respondNotFound('User not found.');
             }
         } catch (TokenExpiredException $e) {
-            // dd(get_class_methods($e));
             return $this->respondWithUnauthorised($e->getMessage());
         } catch (TokenInvalidException $e) {
             return $this->respondWithUnauthorised($e->getMessage());
