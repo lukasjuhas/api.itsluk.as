@@ -29,7 +29,7 @@ class RecordTransformer extends Transformer
     {
         $tracklist = [];
         foreach ($release['tracklist'] as $key => $track) {
-            $tracklist[] = $track->title . ' (' . $track->duration . ')';
+            $tracklist[] = $track->title;
         }
 
         return [
