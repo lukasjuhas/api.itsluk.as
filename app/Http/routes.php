@@ -129,6 +129,10 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function ($a
         'uses' => 'Api\V1\RecordsController@index'
     ]);
 
+    $app->get('/{release}', [
+        'uses' => 'Api\V1\RecordsController@getRelease'
+    ]);
+
     $app->get('page/{page}', function () {
         return redirect('/records?=page={page}');
     });

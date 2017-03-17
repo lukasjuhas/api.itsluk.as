@@ -4,6 +4,11 @@ namespace Transformers;
 
 class RecordTransformer extends Transformer
 {
+    /**
+     * transform record
+     * @param mixed $record
+     * @return mixed
+     */
     public function transform($record)
     {
         return [
@@ -12,6 +17,31 @@ class RecordTransformer extends Transformer
             'artist' => $record->basic_information->artists[0]->name,
             'year' => $record->basic_information->year,
             'thumb' => $record->basic_information->thumb
+        ];
+    }
+
+    /**
+     * release transformer
+     * @param mixed $release
+     * @return mixed
+     */
+    public function transformRelease($release)
+    {
+        $tracklist = [];
+        foreach ($release['tracklist'] as $key => $track) {
+            $tracklist[] = $track->title . ' (' . $track->duration . ')';
+        }
+
+        return [
+            'title' => $release['title'],
+            'artist' => $release['artists'][0]->name,
+            'title' => $release['artists'][0]->name . ' - ' . $release['title'],
+            'year' => $release['year'],
+            'label' => $release['labels'][0]->name,
+            'released' => $release['released'],
+            'notes' => $release['notes'],
+            'image' => $release['images'][0]->uri,
+            'tracklist' => $tracklist,
         ];
     }
 }
