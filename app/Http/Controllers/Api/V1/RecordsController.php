@@ -24,7 +24,6 @@ class RecordsController extends ApiController
 
     public function index(Request $request)
     {
-
         $client = new Client([
             'base_uri' => 'https://api.discogs.com',
             'headers' => [
@@ -33,18 +32,26 @@ class RecordsController extends ApiController
             ]
         ]);
 
-        if($request->get('page')) {
-            $response = $client->request('GET', 'users/itslukas/collection?per_page=25&page=' . $request->get('page'), [
-              'query' => ['key' => env('DISCOGS_KEY'), 'secret' => env('DISCOGS_SECRET')]
+        if ($request->get('page')) {
+            $response = $client->request('GET', 'users/itslukas/collection', [
+                'query' => [
+                    'page' => $request->get('page'),
+                    'per_page' => 25,
+                    'key' => env('DISCOGS_KEY'),
+                    'secret' => env('DISCOGS_SECRET')
+                ]
             ]);
         } else {
-            $response = $client->request('GET', 'users/itslukas/collection?per_page=25', [
-              'query' => ['key' => env('DISCOGS_KEY'), 'secret' => env('DISCOGS_SECRET')]
+            $response = $client->request('GET', 'users/itslukas/collection', [
+                'query' => [
+                    'per_page' => 25,
+                    'key' => env('DISCOGS_KEY'),
+                    'secret' => env('DISCOGS_SECRET')
+                ]
             ]);
         }
 
         $response_body = (array) json_decode($response->getBody());
-
         $items = $this->recordTransformer->transformCollection($response_body['releases']);
 
         // add large thumb;
@@ -60,14 +67,14 @@ class RecordsController extends ApiController
         // }
 
         // dd($response_body['pagination']);
-        if(isset($response_body['pagination']->urls->next)) {
+        if (isset($response_body['pagination']->urls->next)) {
             $next_parse_url = parse_url($response_body['pagination']->urls->next);
             $next_parse = parse_str($next_parse_url['query'], $next);
         } else {
             $next = false;
         }
 
-        if(isset($response_body['pagination']->urls->prev)) {
+        if (isset($response_body['pagination']->urls->prev)) {
             $prev_parse_url = parse_url($response_body['pagination']->urls->prev);
             parse_str($prev_parse_url['query'], $prev);
         } else {
