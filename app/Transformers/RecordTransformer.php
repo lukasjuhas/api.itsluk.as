@@ -6,7 +6,6 @@ class RecordTransformer extends Transformer
 {
     public function transform($record)
     {
-        // print_r($record);
         return [
             'release_id' => $record->release_id,
             'title' => $record->basic_information->title,
