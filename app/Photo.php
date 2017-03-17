@@ -26,11 +26,22 @@ class Photo extends Model
         'status'
     ];
 
+    /**
+     * ptoho belongs to a trip
+     * 
+     * @return collection
+     */
     public function trip()
     {
         return $this->belongsTo(Trip::class, 'trip_id');
     }
 
+    /**
+     * get data attribute
+     *
+     * @param mixed $data
+     * @return mixed
+     */
     public function getDataAttribute($data)
     {
         $photoDataTransformer = app(\Transformers\PhotoDataTransformer::class);

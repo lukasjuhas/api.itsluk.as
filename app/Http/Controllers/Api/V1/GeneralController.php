@@ -9,6 +9,7 @@ class GeneralController extends ApiController
 {
     /**
      * show general information
+     * 
      * @return mixed
      */
     public function index()
@@ -24,7 +25,7 @@ class GeneralController extends ApiController
 
         $general = Cache::get('general');
 
-        if(empty($general)) {
+        if (empty($general)) {
             Cache::put('general', $data, 60);
             $general = $data;
         }

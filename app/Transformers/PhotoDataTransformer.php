@@ -4,6 +4,12 @@ namespace Transformers;
 
 class PhotoDataTransformer extends Transformer
 {
+    /**
+     * transform photo data
+     * 
+     * @param serialised array $data
+     * @return array
+     */
     public function transform($data)
     {
         $data = unserialize($data);

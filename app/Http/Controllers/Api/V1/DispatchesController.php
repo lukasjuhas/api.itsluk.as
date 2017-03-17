@@ -20,6 +20,7 @@ class DispatchesController extends ApiController
 
     /**
      * get feed of dispatches
+     *
      * @param Request $request
      * @return mixed
      */
@@ -32,8 +33,6 @@ class DispatchesController extends ApiController
 
         $dispatches = Dispatch::paginate($limit);
 
-        // dd(get_class_methods($dispatches));
-
         return $this->respondWithPagination($dispatches, [
             'data' => $this->dispatchTransformer->transformCollection($dispatches->all())
         ]);
@@ -41,6 +40,7 @@ class DispatchesController extends ApiController
 
     /**
      * show specific dispatch based on given id
+     *
      * @param $id
      * @return mixed
      */
@@ -59,6 +59,7 @@ class DispatchesController extends ApiController
 
     /**
      * store a new dispatch
+     * 
      * @param Request $request
      * @return mixed
      */
@@ -66,7 +67,7 @@ class DispatchesController extends ApiController
     {
         // validate user request
         $user = $this->getRequestingUser($request);
-        if(!$user) {
+        if (!$user) {
             return $this->respondWithValidationError('Authentication failed validation for a dispatch.');
         }
 

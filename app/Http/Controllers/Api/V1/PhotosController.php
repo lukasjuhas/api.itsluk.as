@@ -26,6 +26,7 @@ class PhotosController extends ApiController
 
     /**
      * get feed of photos
+     *
      * @param Request $request
      * @return mixed
      */
@@ -38,8 +39,6 @@ class PhotosController extends ApiController
 
         $photos = Photo::paginate($limit);
 
-        // dd(get_class_methods($photos));
-
         return $this->respondWithPagination($photos, [
             'data' => $this->photoTransformer->transformCollection($photos->all())
         ]);
@@ -47,6 +46,7 @@ class PhotosController extends ApiController
 
     /**
      * show specific photo based on given id
+     *
      * @param $id
      * @return mixed
      */
@@ -65,6 +65,7 @@ class PhotosController extends ApiController
 
     /**
      * store a new photo
+     *
      * @param Request $request
      * @return mixed
      */
@@ -124,7 +125,7 @@ class PhotosController extends ApiController
 
             // KRAKE image
             $kraken = new Kraken(env('KRAKEN_API_KEY'), env('KRAKEN_API_SECRET'));
-            if($kraken && $file) {
+            if ($kraken && $file) {
                 $krake_file = $kraken->upload([
                     'file' => $filesystem->disk('s3')->url($path),
                     'wait' => true,
@@ -139,7 +140,7 @@ class PhotosController extends ApiController
             }
 
             // KRAKE thumb
-            if($kraken && $thumb) {
+            if ($kraken && $thumb) {
                 $krake_thumb = $kraken->upload([
                     'file' => $filesystem->disk('s3')->url($path_thumb),
                     'wait' => true,
@@ -156,8 +157,8 @@ class PhotosController extends ApiController
             $file_url = $filesystem->disk('s3')->url($path);
             $thumb_url = $filesystem->disk('s3')->url($path_thumb);
 
-            if($file_url) {
-              $photo = Photo::create([
+            if ($file_url) {
+                $photo = Photo::create([
                   'user_id' => 1,
                   'trip_id' => $trip->id,
                   'title' => $filename,
@@ -182,6 +183,7 @@ class PhotosController extends ApiController
 
     /**
      * update photo
+     *
      * @param Request $request
      * @param Int $id
      * @return mixed
@@ -207,6 +209,7 @@ class PhotosController extends ApiController
 
     /**
      * update order
+     *
      * @param Request $request
      * @return mixed
      */
@@ -239,6 +242,7 @@ class PhotosController extends ApiController
 
     /**
      * remove photo
+     * 
      * @param Int $id
      * @return mixed
      */

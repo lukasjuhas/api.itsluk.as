@@ -25,10 +25,20 @@ class Dispatch extends Model
         //
     ];
 
+    /**
+     * table
+     *
+     * @var string
+     */
     protected $table = 'dispatches';
 
+    /**
+     * dispatches have tags
+     *
+     * @return collection
+     */
     public function tags()
     {
-        return $this->belongsToMany(Tag::class); 
+        return $this->belongsToMany(Tag::class);
     }
 }

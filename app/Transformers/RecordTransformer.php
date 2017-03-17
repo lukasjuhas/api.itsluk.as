@@ -6,8 +6,9 @@ class RecordTransformer extends Transformer
 {
     /**
      * transform record
-     * @param mixed $record
-     * @return mixed
+     *
+     * @param array $record
+     * @return array
      */
     public function transform($record)
     {
@@ -22,8 +23,9 @@ class RecordTransformer extends Transformer
 
     /**
      * release transformer
-     * @param mixed $release
-     * @return mixed
+     * 
+     * @param array $release
+     * @return array
      */
     public function transformRelease($release)
     {

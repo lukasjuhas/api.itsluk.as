@@ -19,6 +19,12 @@ class TagsController extends ApiController
         $this->tagTransformer = app(\Transformers\TagTransformer::class);
     }
 
+    /**
+     * get tags
+     *
+     * @param int $dispatchId
+     * @return mixed
+     */
     public function index($dispatchId = null)
     {
         $tags = $this->getTags($dispatchId);
@@ -28,11 +34,17 @@ class TagsController extends ApiController
         ]);
     }
 
+    /**
+     * get single tag
+     *
+     * @param int $id
+     * @return mixed
+     */
     public function show($id)
     {
         $tag = Tag::find($id);
 
-        if(!$tag) {
+        if (!$tag) {
             return $this->respondNotFound('Tag does not exists.');
         }
 
@@ -41,10 +53,15 @@ class TagsController extends ApiController
         ]);
     }
 
+    /**
+     * save tag
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function store(Request $request)
     {
-        if(!$request->input('title') or !$request->input('content'))
-        {
+        if (!$request->input('title') or !$request->input('content')) {
             $this->respondWithValidationError('Parameters failed validation for a tag.');
         }
 
@@ -53,6 +70,12 @@ class TagsController extends ApiController
         return $this->respondCreated('Tag successfully created.');
     }
 
+    /**
+     * get tags for dispatch
+     * 
+     * @param int $dispatchId
+     * @return mixed
+     */
     private function getTags($dispatchId)
     {
         return $dispatchId ? Dispatch::findOrFail($dispatchId)->tags : Tag::all();

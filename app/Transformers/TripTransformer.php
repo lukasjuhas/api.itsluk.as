@@ -4,6 +4,12 @@ namespace Transformers;
 
 class TripTransformer extends Transformer
 {
+    /**
+     * transform tirp
+     * 
+     * @param array $trip
+     * @return array
+     */
     public function transform($trip)
     {
         $photos = [];

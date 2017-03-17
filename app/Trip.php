@@ -25,8 +25,18 @@ class Trip extends Model
         //
     ];
 
+    /**
+     * table
+     * 
+     * @var string
+     */
     protected $table = 'trips';
 
+    /**
+     * trip has many photos
+     *
+     * @return collection
+     */
     public function photos()
     {
         return $this->hasMany(Photo::class)->orderBy('order', 'asc');

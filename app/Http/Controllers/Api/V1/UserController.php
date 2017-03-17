@@ -18,8 +18,8 @@ class UserController extends ApiController
     protected $jwt;
 
     /**
-     *
      * constructor
+     * 
      * @param JWTAuth $jwt
      */
     public function __construct(JWTAuth $jwt)
@@ -29,6 +29,7 @@ class UserController extends ApiController
 
     /**
      * authenticate user
+     *
      * @return mmixed
      */
     public function getAuthenticatedUser()

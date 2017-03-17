@@ -17,6 +17,8 @@ class RecordsController extends ApiController
     */
     protected $recordTransformer;
 
+    protected $baseApiUri = 'https://api.discogs.com';
+
     public function __construct(RecordTransformer $recordTransformer)
     {
         $this->recordTransformer = $recordTransformer;
@@ -24,46 +26,71 @@ class RecordsController extends ApiController
 
     /**
      * set client
+     *
      * @return GuzzleHttp\Client
      */
     private function client()
     {
         return new Client([
-            'base_uri' => 'https://api.discogs.com',
+            'base_uri' => $this->baseApiUri,
             'headers' => [
                 'User-Agent' => 'api.itsluk.as/1.0.0 +http://api.itsluk.as',
                 'Content-Type' => 'application/json',
-            ]
+            ],
         ]);
     }
 
     /**
+     * combine default and given query
+     *
+     * @param array $query
+     * @return array
+     */
+    private function query($query = [])
+    {
+        $default = [
+            'key' => env('DISCOGS_KEY'),
+            'secret' => env('DISCOGS_SECRET')
+        ];
+
+        return ['query' => array_merge($default, $query)];
+    }
+
+    /**
+     * parse response
+     *
+     * @param mixed $response
+     * @return array
+     */
+    private function prase_reponse($response)
+    {
+        if (!$response) {
+            return false;
+        }
+
+        return (array) json_decode($response->getBody());
+    }
+
+    /**
      * get records
+     *
      * @param Request $request
      * @return mixed
      */
     public function index(Request $request)
     {
         if ($request->get('page')) {
-            $response = $this->client()->request('GET', 'users/itslukas/collection', [
-                'query' => [
-                    'page' => $request->get('page'),
-                    'per_page' => 25,
-                    'key' => env('DISCOGS_KEY'),
-                    'secret' => env('DISCOGS_SECRET')
-                ]
-            ]);
+            $response = $this->client()->request('GET', 'users/itslukas/collection', $this->query([
+                'page' => $request->get('page'),
+                'per_page' => 25
+            ]));
         } else {
-            $response = $this->client()->request('GET', 'users/itslukas/collection', [
-                'query' => [
-                    'per_page' => 25,
-                    'key' => env('DISCOGS_KEY'),
-                    'secret' => env('DISCOGS_SECRET')
-                ]
-            ]);
+            $response = $this->client()->request('GET', 'users/itslukas/collection', $this->query([
+                'per_page' => 25,
+            ]));
         }
 
-        $response_body = (array) json_decode($response->getBody());
+        $response_body = $this->prase_reponse($response);
         $items = $this->recordTransformer->transformCollection($response_body['releases']);
 
         if (isset($response_body['pagination']->urls->next)) {
@@ -95,6 +122,7 @@ class RecordsController extends ApiController
 
     /**
      * get single release
+     * 
      * @param Request $request
      * @param int $release
      * @return mixed
@@ -105,16 +133,9 @@ class RecordsController extends ApiController
             $this->respondWithValidationError('Sorry, could not find release identifier.');
         }
 
-        $response = $this->client()->request('GET', 'https://api.discogs.com/releases/' . $release, [
-            'query' => [
-                'key' => env('DISCOGS_KEY'),
-                'secret' => env('DISCOGS_SECRET')
-            ]
-        ]);
+        $response = $this->client()->request('GET', 'https://api.discogs.com/releases/' . $release);
 
-        $response_body = (array) json_decode($response->getBody());
-
-        $item = $this->recordTransformer->transformRelease($response_body);
+        $item = $this->recordTransformer->transformRelease($this->prase_reponse($response));
 
         return $this->respond([
             'data' => $item,

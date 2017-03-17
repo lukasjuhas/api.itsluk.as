@@ -23,6 +23,7 @@ class AuthController extends ApiController
 
     /**
      * login
+     *
      * @param Request $request
      * @return mixed
      */
@@ -50,6 +51,7 @@ class AuthController extends ApiController
 
     /**
      * logout
+     * 
      * @param Request $request
      * @return mixed
      */

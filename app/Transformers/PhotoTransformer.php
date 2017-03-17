@@ -4,6 +4,12 @@ namespace Transformers;
 
 class PhotoTransformer extends Transformer
 {
+    /**
+     * transform photo
+     * 
+     * @param array $photo
+     * @return array
+     */
     public function transform($photo)
     {
         return [

@@ -20,6 +20,7 @@ class TripsController extends ApiController
 
     /**
      * get feed of trips
+     *
      * @param Request $request
      * @return mixed
      */
@@ -38,8 +39,6 @@ class TripsController extends ApiController
             $trips = Trip::orderBy('id', 'desc')->paginate($limit);
         }
 
-        // dd(get_class_methods($trips));
-
         return $this->respondWithPagination($trips, [
             'data' => $this->tripTransformer->transformCollection($trips->all())
         ]);
@@ -47,6 +46,7 @@ class TripsController extends ApiController
 
     /**
      * show specific trip based on given id
+     *
      * @param $id
      * @return mixed
      */
@@ -72,6 +72,7 @@ class TripsController extends ApiController
 
     /**
      * store a new trip
+     *
      * @param Request $request
      * @return mixed
      */
@@ -82,6 +83,7 @@ class TripsController extends ApiController
 
     /**
      * update a trip
+     *
      * @param Request $request
      * @param String $slug
      * @return mixed
@@ -108,6 +110,7 @@ class TripsController extends ApiController
 
     /**
      * update a trip featured image
+     * 
      * @param Request $request
      * @param String $slug
      * @return mixed
