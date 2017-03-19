@@ -38,7 +38,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
     ]);
 
     $app->post('/', [
-        'middleware' => 'auth',
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\TripsController@store'
     ]);
 
@@ -68,7 +68,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
     ]);
 
     $app->post('/', [
-        'middleware' => 'auth',
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\DispatchesController@store'
     ]);
 
@@ -86,7 +86,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app)
     ]);
 
     $app->post('/', [
-        'middleware' => 'auth',
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\TagsController@store'
     ]);
 
@@ -104,7 +104,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
     ]);
 
     $app->post('/', [
-        'middleware' => 'auth',
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@store'
     ]);
 

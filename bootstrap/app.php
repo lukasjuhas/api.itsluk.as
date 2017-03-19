@@ -71,6 +71,10 @@ $app->routeMiddleware([
     'throttle' => App\Http\Middleware\ThrottleRequests::class,
 ]);
 
+$app->routeMiddleware([
+    'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
