@@ -22,8 +22,16 @@ $app->post('/logout', [
     'uses' => 'Api\V1\AuthController@logout'
 ]);
 
-$app->post('/resetPassword', [
+$app->post('/reset-password', [
     'uses' => 'Api\V1\AuthController@resetPassword',
+]);
+
+$app->post('/validate-password-token', [
+    'uses' => 'Api\V1\AuthController@validateResetPassword',
+]);
+
+$app->post('/new-password', [
+    'uses' => 'Api\V1\AuthController@newPassword',
 ]);
 
 /**
