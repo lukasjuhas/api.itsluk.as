@@ -22,6 +22,10 @@ $app->post('/logout', [
     'uses' => 'Api\V1\AuthController@logout'
 ]);
 
+$app->post('/resetPassword', [
+    'uses' => 'Api\V1\AuthController@resetPassword',
+]);
+
 /**
  * Key Generator
  */

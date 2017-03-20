@@ -19,7 +19,7 @@ class UserController extends ApiController
 
     /**
      * constructor
-     * 
+     *
      * @param JWTAuth $jwt
      */
     public function __construct(JWTAuth $jwt)
