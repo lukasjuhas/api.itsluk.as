@@ -13,7 +13,7 @@ class Trip extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'location', 'date_string', 'feature', 'content', 'upcoming', 'status'
+        'user_id', 'name', 'slug', 'location', 'date_string', 'feature', 'content', 'upcoming', 'status'
     ];
 
     /**
@@ -27,7 +27,7 @@ class Trip extends Model
 
     /**
      * table
-     * 
+     *
      * @var string
      */
     protected $table = 'trips';
