@@ -28,9 +28,24 @@ class UserController extends ApiController
     }
 
     /**
-     * authenticate user
+     * authenticate
      *
      * @return mmixed
+     */
+    public function authenticate()
+    {
+        $authenticated = $this->getAuthenticatedUser();
+
+        if ($authenticated) {
+            return $this->respondWithSuccess('Successfully authenticated.');
+        }
+
+        return $this->respondWithError('There was problem authenticating user.');
+    }
+
+    /**
+     * get authenticated user
+     * @return mixed
      */
     public function getAuthenticatedUser()
     {
@@ -38,15 +53,17 @@ class UserController extends ApiController
             if (!$user = $this->jwt->parseToken()->authenticate()) {
                 return $this->respondNotFound('User not found.');
             }
-        } catch (TokenExpiredException $e) {
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
             return $this->respondWithUnauthorised($e->getMessage());
-        } catch (TokenInvalidException $e) {
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return $this->respondWithUnauthorised($e->getMessage());
-        } catch (JWTException $e) {
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return $this->respondWithError($e->getMessage());
         }
 
-        // the token is valid and we have found the user via the sub claim
-        return $this->respondWithSuccess('Successfully authenticated.');
+        return $this->respond([
+            'message' => 'Succesfully Authneticated',
+            'data' => compact('user'),
+        ]);
     }
 }

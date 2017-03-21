@@ -9,7 +9,7 @@ $app->get('/', [
 
 $app->get('/auth', [
     'middleware' => 'throttle:60',
-    'uses' => 'Api\V1\UserController@getAuthenticatedUser',
+    'uses' => 'Api\V1\UserController@authenticate',
 ]);
 
 $app->post('/login', [
@@ -50,7 +50,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
     ]);
 
     $app->post('/', [
-        'middleware' => 'jwt.auth',
+        // 'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\TripsController@store'
     ]);
 

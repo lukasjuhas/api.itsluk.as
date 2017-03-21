@@ -51,9 +51,15 @@ class TripsTest extends ApiTester
     //     $this->assertResponseStatus(422);
     // }
 
+    /**
+     * helper get stub
+     * @return array
+     */
     public function getStub()
     {
         $country = $this->fake->country;
+
+        $withContent = rand(1, 0);
 
         return [
           'user_id' => 1,
@@ -61,8 +67,8 @@ class TripsTest extends ApiTester
           'slug' => str_slug($country),
           'location' => $country,
           'date_string' => $this->fake->date($format = 'F Y', $max = 'now'),
-          'feature' => $this->fake->imageUrl(700, 500, 'city'),
-          'content' => $this->fake->text(1000),
+          'feature' => $withContent ? $this->fake->imageUrl(1200, 500, 'city') : '',
+          'content' => $withContent ? $this->fake->text(1000) : '',
           'upcoming' => 0,
           'status' => 'published'
         ];

@@ -5,16 +5,24 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Trip;
+use Tymon\JWTAuth\JWTAuth;
 
 class TripsController extends ApiController
 {
     /**
+     * @var \Tymon\JWTAuth\JWTAuth
+     */
+    protected $jwt;
+
+    /**
      * Controller instance.
      *
+     * @param JWTAuth $jwt
      * @return void
      */
-    public function __construct()
+    public function __construct(JWTAuth $jwt)
     {
+        $this->jwt = $jwt;
         $this->tripTransformer = app(\Transformers\TripTransformer::class);
     }
 
@@ -79,7 +87,31 @@ class TripsController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        // authenticate user
+        dd($this->jwt->parseToken()->authenticate()); // debuging
+
+        // validate request
+        $this->validate($request, [
+            'title' => 'required',
+        ]);
+
+        // create trip
+        $create = Trip::create([
+            'user_id' => Auth::user()->id,
+            'name' => $request->get('title'),
+            'slug' => str_slug($request->get('title')),
+            'location' => $request->get('location'),
+            'date_string' => $request->get('date'),
+            'content' => $reuqest->get('content'),
+            'upcoming' => $request->get('upcoming', false),
+            'status' => $request->get('status', 'draft'),
+        ]);
+
+        if ($create) {
+            return $this->respondCreated('Trip succesfully created');
+        }
+
+        return $this->respondWithError('There was problem creating a new trip.');
     }
 
     /**
