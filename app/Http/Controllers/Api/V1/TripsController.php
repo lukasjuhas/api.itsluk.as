@@ -88,7 +88,9 @@ class TripsController extends ApiController
     public function store(Request $request)
     {
         // authenticate user
-        dd($this->jwt->parseToken()->authenticate()); // debuging
+        if(!$user = $this->jwt->parseToken()->authenticate()) {
+            return $this->respondWithValidationError('Could not authenticate user.');
+        }
 
         // validate request
         $this->validate($request, [
@@ -97,12 +99,12 @@ class TripsController extends ApiController
 
         // create trip
         $create = Trip::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
             'name' => $request->get('title'),
             'slug' => str_slug($request->get('title')),
             'location' => $request->get('location'),
             'date_string' => $request->get('date'),
-            'content' => $reuqest->get('content'),
+            'content' => $request->get('content'),
             'upcoming' => $request->get('upcoming', false),
             'status' => $request->get('status', 'draft'),
         ]);
