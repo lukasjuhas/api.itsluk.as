@@ -287,6 +287,19 @@ class TripsTableSeeder extends Seeder
 
         App\Trip::create([
             'user_id'        => 1,
+            'name'           => 'Bratislava, Prievidza & Bojnice',
+            'slug'           => 'bratislava-prievidza-bojnice',
+            'location'       => 'Bratislava, Prievidza, Bojnice, Slovakia',
+            'date_string'    => 'January 2017',
+            'feature'        => '',
+            'content'        => '',
+            'upcoming'       => false,
+            'created_at'     => Carbon::now(),
+            'updated_at'     => Carbon::now(),
+        ]);
+
+        App\Trip::create([
+            'user_id'        => 1,
             'name'           => 'Bamberg',
             'slug'           => str_slug('Bamberg'),
             'location'       => 'Bamberg, Germany',
@@ -296,6 +309,45 @@ class TripsTableSeeder extends Seeder
             'upcoming'       => false,
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
+        ]);
+
+        App\Trip::create([
+            'user_id'        => 1,
+            'name'           => 'Paris',
+            'slug'           => 'paris-2017',
+            'location'       => 'Paris, France',
+            'date_string'    => 'April 2017',
+            'feature'        => '',
+            'content'        => '',
+            'upcoming'       => true,
+            'created_at'     => Carbon::now(),
+            'updated_at'     => Carbon::now(),
+        ]);
+
+        App\Trip::create([
+          'user_id'        => 1,
+          'name'           => 'Munich, Heidenheim',
+          'slug'           => 'munich-heidenheim',
+          'location'       => 'Munich, Heidenheim an der Brenz, Germany',
+          'date_string'    => 'May 2017',
+          'feature'        => '',
+          'content'        => '',
+          'upcoming'       => true,
+          'created_at'     => Carbon::now(),
+          'updated_at'     => Carbon::now(),
+        ]);
+
+        App\Trip::create([
+          'user_id'        => 1,
+          'name'           => 'Jersey',
+          'slug'           => 'jersey',
+          'location'       => 'Jersey, Channel Islands, United Kingdom',
+          'date_string'    => 'June 2017',
+          'feature'        => '',
+          'content'        => '',
+          'upcoming'       => true,
+          'created_at'     => Carbon::now(),
+          'updated_at'     => Carbon::now(),
         ]);
     }
 }

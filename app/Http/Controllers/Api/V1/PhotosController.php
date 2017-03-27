@@ -88,7 +88,6 @@ class PhotosController extends ApiController
                 $constraint->aspectRatio();
             })->encode('jpg');
 
-
             // createa thumbnail
             $canvas = Image::canvas(250, 250, '#000000');
             $formated_thumb = Image::make($photo)->resize(250, 250, function ($constraint) {
@@ -242,7 +241,7 @@ class PhotosController extends ApiController
 
     /**
      * remove photo
-     * 
+     *
      * @param Int $id
      * @return mixed
      */
