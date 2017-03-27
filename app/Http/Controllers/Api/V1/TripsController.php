@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
-use App\Trip;
 use Tymon\JWTAuth\JWTAuth;
+use App\Trip;
 
 class TripsController extends ApiController
 {
@@ -101,7 +101,6 @@ class TripsController extends ApiController
         $created = Trip::create([
             'user_id' => $user->id,
             'name' => $request->get('title'),
-            'slug' => str_slug($request->get('title')),
             'location' => $request->get('location'),
             'date_string' => $request->get('date'),
             'content' => $request->get('content'),

@@ -16,7 +16,8 @@
         "guzzlehttp/oauth-subscriber": "^0.3.0",
         "kraken-io/kraken-php": "^1.6",
         "tymon/jwt-auth": "1.0.0-beta.2",
-        "illuminate/mail": "^5.4"
+        "illuminate/mail": "^5.4",
+        "cviebrock/eloquent-sluggable": "^4.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

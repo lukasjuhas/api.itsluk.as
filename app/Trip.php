@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Trip extends Model
 {
+    use Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -13,7 +15,7 @@ class Trip extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'slug', 'location', 'date_string', 'feature', 'content', 'upcoming', 'status'
+        'user_id', 'name', 'location', 'date_string', 'feature', 'content', 'upcoming', 'status'
     ];
 
     /**
@@ -40,5 +42,19 @@ class Trip extends Model
     public function photos()
     {
         return $this->hasMany(Photo::class)->orderBy('order', 'asc');
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
 }
