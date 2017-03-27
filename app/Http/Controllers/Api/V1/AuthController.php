@@ -39,7 +39,8 @@ class AuthController extends ApiController
 
         try {
             if (! $token = $this->jwt->attempt($request->only('email', 'password'))) {
-                return $this->respondWithError('User not found.');
+                // return error same way validation would.
+                return $this->setStatusCode(422)->respond(['general' => ['No user found matching these credentials.']]);
             }
         } catch (TokenExpiredException $e) {
             return $this->respondWithUnauthorised($e->getMessage());
