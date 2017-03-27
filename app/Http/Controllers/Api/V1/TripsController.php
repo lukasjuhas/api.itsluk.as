@@ -110,7 +110,7 @@ class TripsController extends ApiController
         ]);
 
         if ($created) {
-            return $this->respondCreated('Trip succesfully created', [ 'slug' => $created->slug ]);
+            return $this->respondCreated('Trip succesfully created.', [ 'slug' => $created->slug ]);
         }
 
         return $this->respondWithError('There was problem creating a new trip.');

@@ -87,11 +87,11 @@ class ApiController extends BaseController
      * @param string $message
      * @return mixed
      */
-    public function respondCreated($message = 'Successfully created.', $id = false)
+    public function respondCreated($message = 'Successfully created.', $data = false)
     {
-        if ($id) {
+        if ($data) {
             $response = [
-              'id' => $id,
+              'data' => $data,
               'message' => $message
           ];
         } else {
