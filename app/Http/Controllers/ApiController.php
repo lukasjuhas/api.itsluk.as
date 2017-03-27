@@ -68,14 +68,14 @@ class ApiController extends BaseController
     public function respondWithPagination($items, $data)
     {
         $data = array_merge([
-          'paginator' => [
-              'total_count' => $items->total(),
-              'total_pages' => ceil($items->total() / $items->perPage()),
-              'curent_page' => $items->currentPage(),
-              'limit' => (int) $items->perPage(),
-              'next_page' => $items->nextPageUrl(),
-              'prev_page' => $items->previousPageUrl()
-          ]
+            'paginator' => [
+                'total_count' => $items->total(),
+                'total_pages' => ceil($items->total() / $items->perPage()),
+                'curent_page' => $items->currentPage(),
+                'limit' => (int) $items->perPage(),
+                'next_page' => $items->nextPageUrl(),
+                'prev_page' => $items->previousPageUrl()
+            ]
         ], $data);
 
         return $this->respond($data);
@@ -159,13 +159,13 @@ class ApiController extends BaseController
     {
         if ($data) {
             $response = [
-              'id' => $data,
-              'message' => $message
-          ];
+                'data' => $data,
+                'message' => $message
+            ];
         } else {
             $response = [
-              'message' => $message
-          ];
+                'message' => $message
+            ];
         }
 
         return $this->setStatusCode(IlluminateResponse::HTTP_OK)->respond($response);

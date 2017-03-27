@@ -98,7 +98,7 @@ class TripsController extends ApiController
         ]);
 
         // create trip
-        $create = Trip::create([
+        $created = Trip::create([
             'user_id' => $user->id,
             'name' => $request->get('title'),
             'slug' => str_slug($request->get('title')),
@@ -109,8 +109,8 @@ class TripsController extends ApiController
             'status' => $request->get('status', 'draft'),
         ]);
 
-        if ($create) {
-            return $this->respondCreated('Trip succesfully created');
+        if ($created) {
+            return $this->respondCreated('Trip succesfully created', [ 'slug' => $created->slug ]);
         }
 
         return $this->respondWithError('There was problem creating a new trip.');
