@@ -6,7 +6,7 @@ class TripTransformer extends Transformer
 {
     /**
      * transform tirp
-     * 
+     *
      * @param array $trip
      * @return array
      */
@@ -32,6 +32,7 @@ class TripTransformer extends Transformer
             'title' => $trip['name'],
             'slug' => $trip['slug'],
             'location' => $trip['location'],
+            'date' => $trip['date_string'],
             'feature' => $trip['feature'],
             'upcoming' => (boolean) $trip['upcoming'],
             'content' => $trip['content'],

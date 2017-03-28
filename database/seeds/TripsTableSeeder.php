@@ -276,7 +276,7 @@ class TripsTableSeeder extends Seeder
             'user_id'        => 1,
             'name'           => 'USA',
             'slug'           => str_slug('USA'),
-            'location'       => 'New York, California, Nashville',
+            'location'       => 'East Coast, West Coast, Nashville Tennessee',
             'date_string'    => 'September 2016',
             'feature'        => '',
             'content'        => 'USA',
