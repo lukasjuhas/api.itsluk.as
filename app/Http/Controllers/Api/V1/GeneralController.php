@@ -8,8 +8,19 @@ use Illuminate\Support\Facades\Cache;
 class GeneralController extends ApiController
 {
     /**
+     * Controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->instagramTransformer = app(\Transformers\InstagramTransformer::class);
+        $this->instagram = app(\Services\InstagramService::class);
+    }
+
+    /**
      * show general information
-     * 
+     *
      * @return mixed
      */
     public function index()
@@ -31,5 +42,23 @@ class GeneralController extends ApiController
         }
 
         return $this->respond($general);
+    }
+
+    /**
+     * get recent instagram posts
+     *
+     * @return mixed
+     */
+    public function getRecentInstagramPosts()
+    {
+        $posts = $this->instagram->getRecent();
+
+        if (!$posts) {
+            return $this->respondNotFound('Cannot fetch latest posts from Instagram.');
+        }
+
+        return $this->respond([
+            'data' => $this->instagramTransformer->transformCollection($posts),
+        ]);
     }
 }

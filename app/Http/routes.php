@@ -7,6 +7,11 @@ $app->get('/', [
     'uses' => 'Api\V1\GeneralController@index'
 ]);
 
+$app->get('/instagram', [
+    'middleware' => 'throttle:60',
+    'uses' => 'Api\V1\GeneralController@getRecentInstagramPosts'
+]);
+
 $app->get('/auth', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\UserController@authenticate',
