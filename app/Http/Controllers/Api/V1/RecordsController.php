@@ -122,7 +122,7 @@ class RecordsController extends ApiController
 
     /**
      * get single release
-     * 
+     *
      * @param Request $request
      * @param int $release
      * @return mixed
@@ -133,7 +133,7 @@ class RecordsController extends ApiController
             $this->respondWithValidationError('Sorry, could not find release identifier.');
         }
 
-        $response = $this->client()->request('GET', 'https://api.discogs.com/releases/' . $release);
+        $response = $this->client()->request('GET', 'https://api.discogs.com/releases/' . $release, $this->query());
 
         $item = $this->recordTransformer->transformRelease($this->prase_reponse($response));
 

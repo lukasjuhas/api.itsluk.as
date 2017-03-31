@@ -23,7 +23,7 @@ class RecordTransformer extends Transformer
 
     /**
      * release transformer
-     * 
+     *
      * @param array $release
      * @return array
      */
