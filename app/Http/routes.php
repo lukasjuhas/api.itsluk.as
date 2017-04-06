@@ -55,7 +55,7 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
     ]);
 
     $app->post('/', [
-        // 'middleware' => 'jwt.auth',
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\TripsController@store'
     ]);
 

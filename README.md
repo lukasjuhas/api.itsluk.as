@@ -1,13 +1,5 @@
 # api.itsluk.as
-API for my personal website.
-
-### My intentions of this project
-* Create an API to serve my [personal website](https://github.com/lukasjuhas/itsluk.as).
-* Write clean and neat code using best practices I learned so far.
-* Learn more about working with [Lumen](https://lumen.laravel.com).
-* Use [Memcached](http://memcached.org/).
-* Learn to write clean and readable [tests](https://github.com/lukasjuhas/api.itsluk.as/tree/master/tests) which are very important especially in APIs, which can possibly serve millions of people.
-* Give Open Source community an example of using Lumen as an API.
+API for my [personal website](https://github.com/lukasjuhas/itsluk.as).
 
 ### Current Server Setup
 - Ubuntu 16.04.1 x64
@@ -161,7 +153,6 @@ Modify how many items are shown per page. Max 100. Default 10
 Modify which page to show. Default to 1.
 
 **Example:** `https://api.itsluk.as/dispatches?limit=15&page=2`
-
 
 ### `POST /dispatches`
 Create a new dispatch. *Requires authentication. See "Auth" section.*

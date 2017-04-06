@@ -88,7 +88,7 @@ class TripsController extends ApiController
     public function store(Request $request)
     {
         // authenticate user
-        if(!$user = $this->jwt->parseToken()->authenticate()) {
+        if (!$user = $this->jwt->parseToken()->authenticate()) {
             return $this->respondWithValidationError('Could not authenticate user.');
         }
 
