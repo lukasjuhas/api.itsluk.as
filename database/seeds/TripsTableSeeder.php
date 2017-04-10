@@ -21,6 +21,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -34,6 +35,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -47,6 +49,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -60,6 +63,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -73,6 +77,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -86,6 +91,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -99,6 +105,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -112,6 +119,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -125,6 +133,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -138,6 +147,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -151,6 +161,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -164,6 +175,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -177,6 +189,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -190,6 +203,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -203,6 +217,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -216,6 +231,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -229,6 +245,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -242,6 +259,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -255,6 +273,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -268,6 +287,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -281,6 +301,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => 'USA',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -294,6 +315,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -307,6 +329,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => false,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -320,6 +343,7 @@ class TripsTableSeeder extends Seeder
             'feature'        => '',
             'content'        => '',
             'upcoming'       => true,
+            'status'         => 'published',
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now(),
         ]);
@@ -333,6 +357,7 @@ class TripsTableSeeder extends Seeder
           'feature'        => '',
           'content'        => '',
           'upcoming'       => true,
+          'status'         => 'published',
           'created_at'     => Carbon::now(),
           'updated_at'     => Carbon::now(),
         ]);
@@ -346,6 +371,7 @@ class TripsTableSeeder extends Seeder
           'feature'        => '',
           'content'        => '',
           'upcoming'       => true,
+          'status'         => 'published',
           'created_at'     => Carbon::now(),
           'updated_at'     => Carbon::now(),
         ]);
