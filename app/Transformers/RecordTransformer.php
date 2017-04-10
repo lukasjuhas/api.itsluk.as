@@ -42,7 +42,7 @@ class RecordTransformer extends Transformer
             'label' => $release['labels'][0]->name,
             'released' => $release['released'],
             'spotify' => $release['spotify'],
-            'notes' => $release['notes'],
+            'notes' => isset($release['notes']) ? $release['notes'] : false,
             'image' => $release['images'][0]->uri,
             'tracklist' => $tracklist,
         ];
