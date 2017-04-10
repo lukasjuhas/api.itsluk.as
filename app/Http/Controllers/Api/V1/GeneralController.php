@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Cache;
+use Services\InstagramService as Instagram;
 
 class GeneralController extends ApiController
 {
@@ -15,7 +16,7 @@ class GeneralController extends ApiController
     public function __construct()
     {
         $this->instagramTransformer = app(\Transformers\InstagramTransformer::class);
-        $this->instagram = app(\Services\InstagramService::class);
+        $this->instagram = app(Instagram::class);
     }
 
     /**

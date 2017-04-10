@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
-
 use Transformers\RecordTransformer;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 use Illuminate\Http\Request;
+use Services\SpotifyService as Spotify;
 
 class RecordsController extends ApiController
 {
@@ -22,6 +22,7 @@ class RecordsController extends ApiController
     public function __construct(RecordTransformer $recordTransformer)
     {
         $this->recordTransformer = $recordTransformer;
+        $this->spotify = app(Spotify::class);
     }
 
     /**
@@ -93,6 +94,7 @@ class RecordsController extends ApiController
         $response_body = $this->prase_reponse($response);
         $items = $this->recordTransformer->transformCollection($response_body['releases']);
 
+        // handle pagination (next)
         if (isset($response_body['pagination']->urls->next)) {
             $next_parse_url = parse_url($response_body['pagination']->urls->next);
             $next_parse = parse_str($next_parse_url['query'], $next);
@@ -100,6 +102,7 @@ class RecordsController extends ApiController
             $next = false;
         }
 
+        // handle pagination (prev)
         if (isset($response_body['pagination']->urls->prev)) {
             $prev_parse_url = parse_url($response_body['pagination']->urls->prev);
             parse_str($prev_parse_url['query'], $prev);
@@ -107,6 +110,7 @@ class RecordsController extends ApiController
             $prev = false;
         }
 
+        // response
         return $this->respond([
             'paginator' => [
                 'total_count' => $response_body['pagination']->items,
@@ -129,14 +133,25 @@ class RecordsController extends ApiController
      */
     public function getRelease(Request $request, $release)
     {
+        // make sure release id is present
         if (!$release) {
             $this->respondWithValidationError('Sorry, could not find release identifier.');
         }
 
+        // get response and parse it
         $response = $this->client()->request('GET', 'https://api.discogs.com/releases/' . $release, $this->query());
+        $parsed_response = $this->prase_reponse($response);
 
-        $item = $this->recordTransformer->transformRelease($this->prase_reponse($response));
+        // create encoded search query for spotify and search through spotify
+        $encodedSearchQuery = 'album:' . $parsed_response['title'] . ' ' . 'artist:' . $parsed_response['artists'][0]->name;
+        $spotify = $this->spotify->search(urlencode($encodedSearchQuery));
+        // add spotify url to the parsed response if there is result
+        $parsed_response['spotify'] = $spotify ? $spotify['external_urls']['spotify'] : false;
 
+        // run it trough transformer
+        $item = $this->recordTransformer->transformRelease($parsed_response);
+
+        // response
         return $this->respond([
             'data' => $item,
         ]);
