@@ -15,15 +15,15 @@ class PhotoDataTransformer extends Transformer
         $data = unserialize($data);
 
         return [
-            'MimeType' => $data['MimeType'],
-            'Make' => $data['Make'],
-            'Model' => $data['Model'],
+            'MimeType' => isset($data['MimeType']) ? $data['MimeType'] : '',
+            'Make' => isset($data['Make']) ? $data['Make'] : '',
+            'Model' => isset($data['Model']) ? $data['Model'] : '',
             'Copyright' => isset($data['Copyright']) ? $data['Copyright'] : '',
-            'ExposureTime' => $data['ExposureTime'],
-            'FNumber' => $data['FNumber'],
-            'DateTimeOriginal' => $data['DateTimeOriginal'],
-            'FocalLength' => $data['FocalLength'],
-            'ISOSpeedRatings' => $data['ISOSpeedRatings'],
+            'ExposureTime' => isset($data['ExposureTime']) ? $data['ExposureTime'] : '',
+            'FNumber' => isset($data['FNumber']) ? $data['FNumber'] : '',
+            'DateTimeOriginal' => isset($data['DateTimeOriginal']) ? $data['DateTimeOriginal'] : '',
+            'FocalLength' => isset($data['FocalLength']) ? $data['FocalLength'] : '',
+            'ISOSpeedRatings' => isset($data['ISOSpeedRatings']) ? $data['ISOSpeedRatings'] : '',
         ];
     }
 }
