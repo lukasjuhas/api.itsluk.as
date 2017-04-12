@@ -73,7 +73,7 @@ class PhotosController extends ApiController
     {
         // validate fields
         var_export($request->hasFile('photo'));
-        echo ...;
+        echo '...';
         print_r($request->file('photo'));
         die();
         if (!$request->hasFile('photo') || !$request->get('trip')) {
