@@ -72,7 +72,7 @@ class PhotosController extends ApiController
     public function store(Request $request, Filesystem $filesystem)
     {
         // validate fields
-        if (!$request->file('photo') || !$request->get('trip')) {
+        if (!$request->hasFile('photo') || !$request->get('trip')) {
             return $this->respondWithValidationError('Parameters failed validation for a photo.');
         }
 
