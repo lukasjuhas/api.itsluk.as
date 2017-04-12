@@ -6,7 +6,7 @@ class PhotoDataTransformer extends Transformer
 {
     /**
      * transform photo data
-     * 
+     *
      * @param serialised array $data
      * @return array
      */
@@ -18,7 +18,7 @@ class PhotoDataTransformer extends Transformer
             'MimeType' => $data['MimeType'],
             'Make' => $data['Make'],
             'Model' => $data['Model'],
-            'Copyright' => $data['Copyright'],
+            'Copyright' => isset($data['Copyright']) ? $data['Copyright'] : '',
             'ExposureTime' => $data['ExposureTime'],
             'FNumber' => $data['FNumber'],
             'DateTimeOriginal' => $data['DateTimeOriginal'],
