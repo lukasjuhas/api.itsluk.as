@@ -145,6 +145,10 @@ class RecordsController extends ApiController
         // create encoded search query for spotify and search through spotify
         $encodedSearchQuery = 'album:' . $parsed_response['title'] . ' ' . 'artist:' . $parsed_response['artists'][0]->name;
         $spotify = $this->spotify->search(urlencode($encodedSearchQuery));
+        $spotifyTracks = $this->spotify->getPreviewTracks($spotify['id']);
+
+        $parsed_response['track_previews'] = $spotifyTracks;
+
         // add spotify url to the parsed response if there is result
         $parsed_response['spotify'] = $spotify ? $spotify['external_urls']['spotify'] : false;
 
