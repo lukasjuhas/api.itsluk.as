@@ -6,7 +6,7 @@ class SpotifyService
     protected $api = 'https://api.spotify.com/v1/';
 
     /**
-     * Search spotify
+     * Search SpotifyService
      *
      * @return mixed
      */
@@ -66,28 +66,28 @@ class SpotifyService
     }
 
     /**
-     * call an endpoint with aprams
+     * call an url with aprams
      * @param  string $endpoint
      * @param  array  $params
      * @return string
      */
     private function call($endpoint = '', $params = [])
     {
-        $url = $this->endpoint($endpoint, $params);
+        $url = $this->url($endpoint, $params);
         $response = file_get_contents($url);
 
         return json_decode($response, true);
     }
 
     /**
-     * build endpoint
+     * build url
      * @param  string $endpoint
      * @param  array  $params
      * @return string
      */
-    private function endpoint($endpoint = '', $params = [])
+    private function url($endpoint = '', $params = [])
     {
-        $formatted_params = $params ? '?' . http_build_query($params) : '';
+        $formatted_params = $params ? '?' . urldecode(http_build_query($params)) : '';
         return $this->api . ltrim(rtrim($endpoint, '/'), '/') . $formatted_params;
     }
 }
