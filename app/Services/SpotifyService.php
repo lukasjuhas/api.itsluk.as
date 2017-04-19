@@ -3,6 +3,7 @@ namespace Services;
 
 class SpotifyService
 {
+    protected $api = 'https://api.spotify.com/v1/';
 
     /**
      * Search spotify
@@ -14,9 +15,11 @@ class SpotifyService
         if (!$query) {
             return false;
         }
-        $endpoint = 'https://api.spotify.com/v1/search?q=' . $query . '&type=album,artist';
-        $response = file_get_contents($endpoint);
-        $response = json_decode($response, true);
+
+        $response = $this->call('search', [
+            'q' => $query,
+            'type' => 'album,artist'
+        ]);
 
         // simply return first item as our search should be quite precise
         return count($response['albums']['items']) ? $response['albums']['items'][0] : false;
@@ -33,9 +36,9 @@ class SpotifyService
             return false;
         }
 
-        $endpoint = 'https://api.spotify.com/v1/albums/' . $albumId . '/tracks?limit=50';
-        $response = file_get_contents($endpoint);
-        $response = json_decode($response, true);
+        $response = $this->call('albums/' . $albumId . '/tracks', [
+            'limit' => 50
+        ]);
 
         return $response;
     }
@@ -60,5 +63,31 @@ class SpotifyService
         }
 
         return $ids;
+    }
+
+    /**
+     * call an endpoint with aprams
+     * @param  string $endpoint
+     * @param  array  $params
+     * @return string
+     */
+    private function call($endpoint = '', $params = [])
+    {
+        $url = $this->endpoint($endpoint, $params);
+        $response = file_get_contents($url);
+
+        return json_decode($response, true);
+    }
+
+    /**
+     * build endpoint
+     * @param  string $endpoint
+     * @param  array  $params
+     * @return string
+     */
+    private function endpoint($endpoint = '', $params = [])
+    {
+        $formatted_params = $params ? '?' . http_build_query($params) : '';
+        return $this->api . ltrim(rtrim($endpoint, '/'), '/') . $formatted_params;
     }
 }
