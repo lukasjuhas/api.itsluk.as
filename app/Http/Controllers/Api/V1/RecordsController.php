@@ -117,8 +117,8 @@ class RecordsController extends ApiController
                 'total_pages' => $response_body['pagination']->pages,
                 'current_page' => $response_body['pagination']->page,
                 'limit' => $response_body['pagination']->per_page,
-                'next_page' => $next['page'] ? 'https://api.itsluk.dev/records?page=' . $next['page'] : null,
-                'prev_page' => $prev['page'] ? 'https://api.itsluk.dev/records?page=' . $prev['page'] : null,
+                'next_page' => $next['page'] ? 'https://api.itsluk.as/records?page=' . $next['page'] : null,
+                'prev_page' => $prev['page'] ? 'https://api.itsluk.as/records?page=' . $prev['page'] : null,
             ],
             'data' => $items,
         ]);
