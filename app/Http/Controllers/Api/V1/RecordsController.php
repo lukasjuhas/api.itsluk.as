@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
 use Transformers\RecordTransformer;
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Subscriber\Oauth\Oauth1;
 use Illuminate\Http\Request;
+use Services\DiscogsService as Discogs;
 use Services\SpotifyService as Spotify;
 
 class RecordsController extends ApiController
@@ -17,11 +15,10 @@ class RecordsController extends ApiController
     */
     protected $recordTransformer;
 
-    protected $baseApiUri = 'https://api.discogs.com';
-
     public function __construct(RecordTransformer $recordTransformer)
     {
         $this->recordTransformer = $recordTransformer;
+        $this->discogs = app(Discogs::class);
         $this->spotify = app(Spotify::class);
     }
 
@@ -34,30 +31,29 @@ class RecordsController extends ApiController
     public function index(Request $request)
     {
         if ($request->get('page')) {
-            $response = $this->client()->request('GET', 'users/itslukas/collection', $this->query([
+            $response = $this->discogs->call('users/itslukas/collection', [
                 'page' => $request->get('page'),
                 'per_page' => 25
-            ]));
+            ]);
         } else {
-            $response = $this->client()->request('GET', 'users/itslukas/collection', $this->query([
+            $response = $this->discogs->call('users/itslukas/collection', [
                 'per_page' => 25,
-            ]));
+            ]);
         }
 
-        $response_body = $this->prase_reponse($response);
-        $items = $this->recordTransformer->transformCollection($response_body['releases']);
+        $items = $this->recordTransformer->transformCollection($response['releases']);
 
         // handle pagination (next)
-        if (isset($response_body['pagination']->urls->next)) {
-            $next_parse_url = parse_url($response_body['pagination']->urls->next);
+        if (isset($response['pagination']->urls->next)) {
+            $next_parse_url = parse_url($response['pagination']->urls->next);
             $next_parse = parse_str($next_parse_url['query'], $next);
         } else {
             $next = false;
         }
 
         // handle pagination (prev)
-        if (isset($response_body['pagination']->urls->prev)) {
-            $prev_parse_url = parse_url($response_body['pagination']->urls->prev);
+        if (isset($response['pagination']->urls->prev)) {
+            $prev_parse_url = parse_url($response['pagination']->urls->prev);
             parse_str($prev_parse_url['query'], $prev);
         } else {
             $prev = false;
@@ -66,12 +62,12 @@ class RecordsController extends ApiController
         // response
         return $this->respond([
             'paginator' => [
-                'total_count' => $response_body['pagination']->items,
-                'total_pages' => $response_body['pagination']->pages,
-                'current_page' => $response_body['pagination']->page,
-                'limit' => $response_body['pagination']->per_page,
-                'next_page' => $next['page'] ? 'https://api.itsluk.as/records?page=' . $next['page'] : null,
-                'prev_page' => $prev['page'] ? 'https://api.itsluk.as/records?page=' . $prev['page'] : null,
+                'total_count' => $response['pagination']->items,
+                'total_pages' => $response['pagination']->pages,
+                'current_page' => $response['pagination']->page,
+                'limit' => $response['pagination']->per_page,
+                'next_page' => $next['page'] ? sprintf('%s/records?page=%s', url('/'), $next['page']) : null,
+                'prev_page' => $prev['page'] ? sprintf('%s/records?page=%s', url('/'), $prev['page']) : null,
             ],
             'data' => $items,
         ]);
@@ -92,21 +88,20 @@ class RecordsController extends ApiController
         }
 
         // get response and parse it
-        $response = $this->client()->request('GET', 'https://api.discogs.com/releases/' . $release, $this->query());
-        $parsed_response = $this->prase_reponse($response);
+        $response = $this->discogs->call(sprintf('releases/%s', $release));
 
         // create encoded search query for spotify and search through spotify
-        $encodedSearchQuery = 'album:' . $parsed_response['title'] . ' ' . 'artist:' . $parsed_response['artists'][0]->name;
+        $encodedSearchQuery = sprintf('album:%s artist:%s', $response['title'], $response['artists'][0]->name);
         $spotify = $this->spotify->search(urlencode($encodedSearchQuery));
         $spotifyTracks = $this->spotify->getPreviewTracks($spotify['id']);
 
-        $parsed_response['track_previews'] = $spotifyTracks;
+        $response['track_previews'] = $spotifyTracks;
 
         // add spotify url to the parsed response if there is result
-        $parsed_response['spotify'] = $spotify ? $spotify['external_urls']['spotify'] : false;
+        $response['spotify'] = $spotify ? $spotify['external_urls']['spotify'] : false;
 
         // run it trough transformer
-        $item = $this->recordTransformer->transformRelease($parsed_response);
+        $item = $this->recordTransformer->transformRelease($response);
 
         // response
         return $this->respond([

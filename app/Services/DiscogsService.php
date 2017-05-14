@@ -1,9 +1,24 @@
 <?php
 namespace Services;
 
+use GuzzleHttp\Client;
+
 class DiscogsService
 {
     protected $api = 'https://api.discogs.com';
+
+    /**
+     * call
+     * @param  string $path
+     * @param  array  $params
+     * @param  string $method
+     * @return object
+     */
+    public function call($path = '/', $params = [], $method = 'GET')
+    {
+        $request = $this->client()->request($method, $path, $this->query($params));
+        return $this->prase_reponse($request);
+    }
 
     /**
      * set client
