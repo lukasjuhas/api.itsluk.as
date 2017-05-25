@@ -17,6 +17,7 @@ class Photo extends Model
         'trip_id',
         'title',
         'caption',
+        'preview',
         'thumb',
         'url',
         'order',
@@ -28,7 +29,7 @@ class Photo extends Model
 
     /**
      * ptoho belongs to a trip
-     * 
+     *
      * @return collection
      */
     public function trip()

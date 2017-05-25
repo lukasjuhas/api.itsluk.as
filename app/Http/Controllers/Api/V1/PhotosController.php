@@ -81,6 +81,7 @@ class PhotosController extends ApiController
             $filename  = time() . '.' . $photo->getClientOriginalExtension();
             $path = $this->aws_path . $filename;
             $path_thumb = $this->aws_path . 'thumb_' . $filename;
+            $path_preview = $this->aws_path . 'preview_' . $filename;
 
             // create image size for post
             $formated_image = Image::make($photo)->resize(null, 700, function ($constraint) {
@@ -93,6 +94,11 @@ class PhotosController extends ApiController
                 $constraint->aspectRatio();
             })->encode('jpg');
             $canvas->insert($formated_thumb, 'center');
+
+            // create a preview size
+            $formated_preview = Image::make($photo)->resize(42, 42, function ($constraint) {
+                $constraint->aspectRatio();
+            })->encode('jpg', 0);
 
             // set exif so we can save this in to DB before we optimise images
             $exif = $formated_image->exif();
@@ -115,10 +121,12 @@ class PhotosController extends ApiController
 
             // create stream for iamges
             $formated_image = $formated_image->stream();
+            $formated_preview = $formated_preview->stream();
             $canvas = $canvas->stream();
 
             // save to aws, they will get overwritten after krakening
             $file = $filesystem->disk('s3')->put($path, $formated_image->__toString());
+            $preview = $filesystem->disk('s3')->put($path_preview, $formated_preview->__toString());
             $thumb = $filesystem->disk('s3')->put($path_thumb, $canvas->__toString());
 
             // KRAKE image
@@ -152,8 +160,25 @@ class PhotosController extends ApiController
                 ]);
             }
 
+            // KRAKE preview
+            if ($kraken && $preview) {
+                $krake_preview = $kraken->upload([
+                    'file' => $filesystem->disk('s3')->url($path_preview),
+                    'wait' => true,
+                    'lossy' => true,
+                    's3_store' => [
+                        'key' => env('AWS_KEY'),
+                        'secret' => env('AWS_SECRET'),
+                        'region' => env('AWS_REGION'),
+                        'bucket' => env('AWS_BUCKET'),
+                        'path' => $path_preview,
+                    ]
+                ]);
+            }
+
             $file_url = $filesystem->disk('s3')->url($path);
             $thumb_url = $filesystem->disk('s3')->url($path_thumb);
+            $preview_url = $filesystem->disk('s3')->url($path_preview);
 
             if ($file_url) {
                 $photo = Photo::create([
@@ -161,6 +186,7 @@ class PhotosController extends ApiController
                   'trip_id' => $trip->id,
                   'title' => $filename,
                   'caption' => '',
+                  'preview' => $preview_url,
                   'thumb' => $thumb_url,
                   'url' => $file_url,
                   'size' => serialize($size),
