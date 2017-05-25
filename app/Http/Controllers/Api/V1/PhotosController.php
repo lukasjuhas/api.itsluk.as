@@ -296,4 +296,54 @@ class PhotosController extends ApiController
 
         return $this->respondWithError('There was problem removing your photo.');
     }
+
+    /**
+     * Generate preview images
+     *
+     * This needs some futher work, tidy up etc. This is more temp. generator
+     * so I can proceed with front end use of this.
+     *
+     * @param  Filesystem $filesystem [description]
+     * @return [type]                 [description]
+     */
+    public function generatePreviews(Filesystem $filesystem)
+    {
+        foreach (Photo::all() as $photo) :
+            $filename = 'preview_' . $photo->title;
+            $path = $this->aws_path . $filename;
+
+            $formated_preview = Image::make($photo->url)->resize(42, 42, function ($constraint) {
+                $constraint->aspectRatio();
+            })->encode('jpg', 0);
+
+            // create stream for iamges
+            $formated_preview = $formated_preview->stream();
+
+            // save to aws, they will get overwritten after krakening
+            $preview = $filesystem->disk('s3')->put($path, $formated_preview->__toString());
+
+            // KRAKE
+            $kraken = new Kraken(env('KRAKEN_API_KEY'), env('KRAKEN_API_SECRET'));
+            if ($kraken && $preview) {
+                $krake_preview = $kraken->upload([
+                    'file' => $filesystem->disk('s3')->url($path),
+                    'wait' => true,
+                    'lossy' => true,
+                    's3_store' => [
+                        'key' => env('AWS_KEY'),
+                        'secret' => env('AWS_SECRET'),
+                        'region' => env('AWS_REGION'),
+                        'bucket' => env('AWS_BUCKET'),
+                        'path' => $path,
+                    ]
+                ]);
+            }
+
+            $photo->update([
+                'preview' => $krake_preview['kraked_url'],
+            ]);
+        endforeach;
+
+        return $this->respondCreated('Photos previews successfully created.');
+    }
 }

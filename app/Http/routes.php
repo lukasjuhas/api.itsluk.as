@@ -130,11 +130,18 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
     ]);
 
     $app->put('{id}', [
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@update'
     ]);
 
     $app->delete('{id}', [
+        'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@delete'
+    ]);
+
+    $app->post('generatePreviews', [
+        'middleware' => 'jwt.auth',
+        'uses' => 'Api\V1\PhotosController@generatePreviews'
     ]);
 });
 
