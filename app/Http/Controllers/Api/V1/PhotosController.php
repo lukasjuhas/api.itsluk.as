@@ -309,6 +309,10 @@ class PhotosController extends ApiController
     public function generatePreviews(Filesystem $filesystem)
     {
         foreach (Photo::all() as $photo) :
+            if($photo->preview) {
+                continue;
+            }
+
             $filename = 'preview_' . $photo->title;
             $path = $this->aws_path . $filename;
 
