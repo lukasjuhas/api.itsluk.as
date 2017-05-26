@@ -21,6 +21,7 @@ class TripTransformer extends Transformer
             $photos[$key]['title'] = $photo['title'];
             $photos[$key]['caption'] = $photo['caption'];
             $photos[$key]['thumb'] = $photo['thumb'];
+            $photos[$key]['preview'] = $photo['preview'];
             $photos[$key]['url'] = $photo['url'];
             $photos[$key]['width'] = $size['width'];
             $photos[$key]['height'] = $size['height'];
