@@ -127,9 +127,6 @@ class SpotifyService
             'query' => [
                 'q' => $this->formatQuery($query),
                 'type' => 'album,artist'
-            ],
-            'headers' => [
-                'Authorization' => sprintf('Bearer %s', $accessToken->access_token),
             ]
         ]);
 
@@ -151,9 +148,14 @@ class SpotifyService
             return false;
         }
 
-        $response = $this->call('albums/' . $albumId . '/tracks', [
-            'limit' => 50
+        $request = $this->client()->request('GET', 'albums/' . $albumId . '/tracks', [
+            'query' => [
+                'limit' => 50
+            ],
         ]);
+
+        // parse
+        $response = $this->prase_reponse($request);
 
         return $response;
     }
@@ -198,7 +200,7 @@ class SpotifyService
     private function config()
     {
         $token = $this->handleAccessToken();
-        // dd($token);
+
         return [
             'base_uri' => $this->api,
             'headers' => [
