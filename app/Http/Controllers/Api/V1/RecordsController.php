@@ -23,6 +23,24 @@ class RecordsController extends ApiController
     }
 
     /**
+     * spotify authorise
+     */
+    public function spotify()
+    {
+        return $this->spotify->authorise();
+    }
+
+    /**
+     * spotify callback
+     * @return [type] [description]
+     */
+    public function spotifyCallback()
+    {
+        $this->spotify->handleCode();
+        return redirect('/');
+    }
+
+    /**
      * get records
      *
      * @param Request $request
@@ -91,8 +109,8 @@ class RecordsController extends ApiController
         $response = $this->discogs->call(sprintf('releases/%s', $release));
 
         // create encoded search query for spotify and search through spotify
-        $encodedSearchQuery = sprintf('album:%s artist:%s', $response['title'], $response['artists'][0]->name);
-        $spotify = $this->spotify->search(urlencode($encodedSearchQuery));
+        $query = sprintf('album:%s+artist:%s', $response['title'], $response['artists'][0]->name);
+        $spotify = $this->spotify->search($query);
         $spotifyTracks = $this->spotify->getPreviewTracks($spotify['id']);
 
         $response['track_previews'] = $spotifyTracks;

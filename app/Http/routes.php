@@ -12,6 +12,16 @@ $app->get('/instagram', [
     'uses' => 'Api\V1\GeneralController@getRecentInstagramPosts'
 ]);
 
+$app->get('/spotify', [
+    'middleware' => 'throttle:60',
+    'uses' => 'Api\V1\RecordsController@spotify'
+]);
+
+$app->get('/spotify/callback', [
+    'middleware' => 'throttle:60',
+    'uses' => 'Api\V1\RecordsController@spotifyCallback'
+]);
+
 $app->get('/auth', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\UserController@authenticate',

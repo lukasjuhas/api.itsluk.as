@@ -8,7 +8,7 @@
         "php": ">=5.6.4",
         "laravel/lumen-framework": "5.4.*",
         "vlucas/phpdotenv": "~2.2",
-        "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/guzzle": "^6.2",
         "phpunit/phpunit": "^5.7",
         "league/flysystem": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
@@ -17,7 +17,8 @@
         "kraken-io/kraken-php": "^1.6",
         "tymon/jwt-auth": "1.0.0-beta.2",
         "illuminate/mail": "^5.4",
-        "cviebrock/eloquent-sluggable": "^4.2"
+        "cviebrock/eloquent-sluggable": "^4.2",
+        "league/oauth2-client": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
