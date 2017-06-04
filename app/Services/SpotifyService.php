@@ -75,10 +75,11 @@ class SpotifyService
     {
         $accessToken = $this->setting->get_setting('spotify_access_token');
         // echo $accessToken->expires; die();
-        $not_expired = Carbon::createFromTimestamp($accessToken->expires);
+        $expires = Carbon::createFromTimestamp($accessToken->expires);
         // if access token has expired, refresh it
-        if (!$not_expired) {
-            $accessToken = $this->refreshToken();
+        if (!$expires->isFuture()) {
+            $this->refreshToken();
+            $accessToken = $this->setting->get_setting('spotify_access_token');
         }
         return $accessToken;
     }
@@ -105,9 +106,13 @@ class SpotifyService
     public function refreshToken()
     {
         $accessToken = $this->setting->get_setting('spotify_access_token');
-        return $this->provider->getAccessToken('refresh_token', [
+        $refreshedAcessToken = $this->provider->getAccessToken('refresh_token', [
             'refresh_token' => $accessToken->refresh_token
         ]);
+        $this->setting->update_setting('spotify_access_token', $refreshedAcessToken);
+
+        $newAcessToken = $this->setting->get_setting('spotify_access_token');
+        return $newAcessToken;
     }
 
     /**
