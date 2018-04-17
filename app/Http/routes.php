@@ -2,86 +2,86 @@
 /**
  * General
  */
-$app->get('/', [
+$router->get('/', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\GeneralController@index'
 ]);
 
-$app->get('/instagram', [
+$router->get('/instagram', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\GeneralController@getRecentInstagramPosts'
 ]);
 
-$app->get('/spotify', [
+$router->get('/spotify', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\RecordsController@spotify'
 ]);
 
-$app->get('/spotify/callback', [
+$router->get('/spotify/callback', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\RecordsController@spotifyCallback'
 ]);
 
-$app->get('/auth', [
+$router->get('/auth', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\UserController@authenticate',
 ]);
 
-$app->post('/login', [
+$router->post('/login', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\AuthController@login'
 ]);
 
-$app->post('/logout', [
+$router->post('/logout', [
     'middleware' => 'throttle:60',
     'uses' => 'Api\V1\AuthController@logout'
 ]);
 
-$app->post('/reset-password', [
+$router->post('/reset-password', [
     'uses' => 'Api\V1\AuthController@resetPassword',
 ]);
 
-$app->post('/validate-password-token', [
+$router->post('/validate-password-token', [
     'uses' => 'Api\V1\AuthController@validateResetPassword',
 ]);
 
-$app->post('/new-password', [
+$router->post('/new-password', [
     'uses' => 'Api\V1\AuthController@newPassword',
 ]);
 
 /**
  * Key Generator
  */
-$app->get('/key', function () {
+$router->get('/key', function () {
     return str_random(32);
 });
 
 /**
  * Trips
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app) {
-    $app->get('/', [
+$router->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($router) {
+    $router->get('/', [
         'uses' => 'Api\V1\TripsController@index'
     ]);
 
-    $app->post('/', [
+    $router->post('/', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\TripsController@store'
     ]);
 
-    $app->get('{slug}', [
+    $router->get('{slug}', [
         'uses' => 'Api\V1\TripsController@show'
     ]);
 
-    $app->put('{slug}', [
+    $router->put('{slug}', [
         'uses' => 'Api\V1\TripsController@update'
     ]);
 
-    $app->put('{slug}/order', [
+    $router->put('{slug}/order', [
         'uses' => 'Api\V1\PhotosController@updateOrder'
     ]);
 
-    $app->put('{slug}/update-feature', [
+    $router->put('{slug}/update-feature', [
         'uses' => 'Api\V1\TripsController@updateFeature'
     ]);
 });
@@ -89,17 +89,17 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'trips'], function ($app
 /**
  * Dispatches
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
-    $app->get('/', [
+$router->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($router) {
+    $router->get('/', [
         'uses' => 'Api\V1\DispatchesController@index'
     ]);
 
-    $app->post('/', [
+    $router->post('/', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\DispatchesController@store'
     ]);
 
-    $app->get('{id}', [
+    $router->get('{id}', [
         'uses' => 'Api\V1\DispatchesController@show'
     ]);
 });
@@ -107,17 +107,17 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
 /**
  * Tags
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app) {
-    $app->get('/', [
+$router->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($router) {
+    $router->get('/', [
         'uses' => 'Api\V1\TagsController@index'
     ]);
 
-    $app->post('/', [
+    $router->post('/', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\TagsController@store'
     ]);
 
-    $app->get('{id}', [
+    $router->get('{id}', [
         'uses' => 'Api\V1\TagsController@show'
     ]);
 });
@@ -125,31 +125,31 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'tags'], function ($app)
 /**
  * Photos
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($app) {
-    $app->get('/', [
+$router->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($router) {
+    $router->get('/', [
         'uses' => 'Api\V1\PhotosController@index'
     ]);
 
-    $app->post('/', [
+    $router->post('/', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@store'
     ]);
 
-    $app->get('{id}', [
+    $router->get('{id}', [
         'uses' => 'Api\V1\PhotosController@show'
     ]);
 
-    $app->put('{id}', [
+    $router->put('{id}', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@update'
     ]);
 
-    $app->delete('{id}', [
+    $router->delete('{id}', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@delete'
     ]);
 
-    $app->post('generatePreviews', [
+    $router->post('generatePreviews', [
         'middleware' => 'jwt.auth',
         'uses' => 'Api\V1\PhotosController@generatePreviews'
     ]);
@@ -158,16 +158,16 @@ $app->group(['middleware' => 'throttle:60', 'prefix' => 'photos'], function ($ap
 /**
  * Records
  */
-$app->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function ($app) {
-    $app->get('/', [
+$router->group(['middleware' => 'throttle:60', 'prefix' => 'records'], function ($router) {
+    $router->get('/', [
         'uses' => 'Api\V1\RecordsController@index'
     ]);
 
-    $app->get('/{release}', [
+    $router->get('/{release}', [
         'uses' => 'Api\V1\RecordsController@getRelease'
     ]);
 
-    $app->get('page/{page}', function () {
+    $router->get('page/{page}', function () {
         return redirect('/records?=page={page}');
     });
 });
