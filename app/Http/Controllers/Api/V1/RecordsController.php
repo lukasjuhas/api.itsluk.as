@@ -49,12 +49,12 @@ class RecordsController extends ApiController
     public function index(Request $request)
     {
         if ($request->get('page')) {
-            $response = $this->discogs->call('users/itslukas/collection', [
+            $response = $this->discogs->call('users/itslukas/collection/folders/0/releases', [
                 'page' => $request->get('page'),
                 'per_page' => 25
             ]);
         } else {
-            $response = $this->discogs->call('users/itslukas/collection', [
+            $response = $this->discogs->call('users/itslukas/collection/folders/0/releases', [
                 'per_page' => 25,
             ]);
         }
