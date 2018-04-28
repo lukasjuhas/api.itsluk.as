@@ -1,176 +1,59 @@
-# api.itsluk.as
-API for my [personal website](https://github.com/lukasjuhas/itsluk.as).
+<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-### Current Server Setup
-- Ubuntu 16.04.1 x64
-- PHP 7.1
-- 512MP Memory
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+</p>
 
-# Notes
-* Using an API as a source for another API is probably not the best practice if we look at my record collection endpoint but I find it quite handy if I ever decide to change the source from where the records are coming and keep the same structure. [Discogs](https://www.discogs.com/) provides lots of useful data I can use, such as artwork, year etc.
+## About Laravel
 
-* In the future, implement [The Link Header Field](https://tools.ietf.org/html/rfc5988#section-5)
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
 
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-### Future Features
-- U2F Key Support (Yubikey)
-- Add Dispatches (Blog, currently draft)
-- Add Tags (currently draft)
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 
-# Auth
+## Learning Laravel
 
-Some of the requests, especially **`POST`** need a basic authentication using `token`.
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
 
-# Rate Limits
+If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-60 requests per minute.
+## Laravel Sponsors
 
-# [Endpoints](https://github.com/lukasjuhas/api.itsluk.as/tree/master/app/Http/routes.php)
+We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
 
-### `GET /`
-General information and contact details.
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[British Software Development](https://www.britishsoftware.co)**
+- [Fragrantica](https://www.fragrantica.com)
+- [SOFTonSOFA](https://softonsofa.com/)
+- [User10](https://user10.com)
+- [Soumettre.fr](https://soumettre.fr/)
+- [CodeBrisk](https://codebrisk.com)
+- [1Forge](https://1forge.com)
+- [TECPRESSO](https://tecpresso.co.jp/)
+- [Pulse Storm](http://www.pulsestorm.net/)
+- [Runtime Converter](http://runtimeconverter.com/)
+- [WebL'Agence](https://weblagence.com/)
 
-## User / Auth
-Authenticate user using `token` store in the local storage after login
+## Contributing
 
-### `GET /auth`
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-#### Attributes
+## Security Vulnerabilities
 
-Send `Authorization` header = `Bearer token_goes_here`
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-### `POST /login`
-Login using credentials
+## License
 
-#### Attributes (required)
-
-Form fields, `email` and `password`
-
-### `POST /logout`
-Logout
-
-## Trips
-
-### `GET /`
-
-Get list of trips
-
-#### Attributes (optional)
-
-#### `limit`
-
-Modify how many items are shown per page. Max 100. Default 10
-
-**Example:** `https://api.itsluk.as/trips?limit=50`
-
-### `POST /`
-Create a new trip
-
-#### Attributes (required)
-
-`name` (text) - Name / title of the trip
-`content` (longText) - Content / copy.
-
-### `GET {slug}`
-Get specific trip by slug
-
-**Example:** `https://api.itsluk.as/trips/usa`
-
-#### Attributes (optional)
-
-#### `all` (boolean)
-
-Get trip even if the trip doesn't have any content as by default these are not being fetched.
-
-**Example:** `https://api.itsluk.as/trips/usa?all=1`
-
-### `PUT {slug}`
-Update specific trip
-
-#### Attributes (required)
-
-`name` (text) - Name / title of the trip
-`content` (longText) - Content / copy.
-
-### `PUT {slug}/order`
-Update order of the photos within trip
-
-#### Attributes (required)
-
-`photos` - Array of keys and ids
-
-### `PUT {slug}/update-feature`
-Update featured image for the trip
-
-#### Attributes (required)
-
-`photo` (int) - ID of the photo that should be set as featured image
-
-## Records
-My record collection, pulled from [Discogs](https://www.discogs.com/).
-
-### `GET /records`
-Get feed of my record collection.
-
-#### Attributes (optional)
-
-#### `per_page`
-
-Modify how many items are shown per page. Max 100. Default 25
-
-**Example:** `https://api.itsluk.as/records?per_page=50`
-
-#### `page`
-Specify page to fetch.
-
-**Example:** `https://api.itsluk.as/records?per_page=5&page=2`
-
-## Other
-
-### `GET /key`
-Key generator
-
----
-
-## In Development
-
-## Dispatches
-Dispatches (blog in other words).
-
-### `GET /dispatches`
-Feed of all dispatches.
-
-#### Attributes (optional)
-
-#### `limit`
-
-Modify how many items are shown per page. Max 100. Default 10
-
-**Example:** `https://api.itsluk.as/dispatches?limit=50`
-
-#### `page`
-
-Modify which page to show. Default to 1.
-
-**Example:** `https://api.itsluk.as/dispatches?limit=15&page=2`
-
-### `POST /dispatches`
-Create a new dispatch. *Requires authentication. See "Auth" section.*
-
-### `GET /dispatches/{id}`
-Get specific single dispatch.
-
-### `GET /dispatches/{id}/tags`
-Get specific dispatch's tags
-
-## Tags
-Tags used for dispatches.
-
-### `GET /tags`
-Feed of all tags.
-
-### `POST /tags`
-Create a new tag. *Requires authentication. See "Auth" section.*
-
-### `GET /tags/{id}`
-Get dispatches for specific tag.
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
