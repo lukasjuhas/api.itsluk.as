@@ -23,7 +23,9 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Services\\": "app/Services",
+            "Transformers\\": "app/Transformers"
         }
     },
     "autoload-dev": {
