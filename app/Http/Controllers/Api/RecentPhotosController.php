@@ -27,11 +27,9 @@ class RecentPhotosController extends ApiController
         }
 
         if (!$posts) {
-            return $this->respondNotFound('Cannot fetch latest posts from Instagram.');
+            return $this->respondNotFound('Sorry, there was problem loading instagram photos.');
         }
 
-        return $this->respond([
-            'data' => $instagramTransformer->transformCollection($posts),
-        ]);
+        return $this->respond($instagramTransformer->transformCollection($posts));
     }
 }

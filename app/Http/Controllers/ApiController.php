@@ -30,4 +30,16 @@ class ApiController extends BaseController
     {
         return response()->json($data, $this->getStatusCode(), $headers);
     }
+
+    public function respondWithError($message = 'There was an error.')
+    {
+        return $this->respond([
+            'message' => $message,
+        ]);
+    }
+
+    public function respondNotFound($message = 'Not Found!')
+    {
+        return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
+    }
 }
